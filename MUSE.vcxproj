@@ -136,6 +136,7 @@
     <ClCompile Include="src\body.cpp" />
     <ClCompile Include="src\ensemble.cpp" />
     <ClCompile Include="src\error.cpp" />
+    <ClCompile Include="src\input.cpp" />
     <ClCompile Include="src\joint.cpp" />
     <ClCompile Include="src\joint_ground.cpp" />
     <ClCompile Include="src\joint_sphere.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="src\ensemble.h" />
     <ClInclude Include="src\enums.h" />
     <ClInclude Include="src\error.h" />
+    <ClInclude Include="src\input.h" />
     <ClInclude Include="src\joint.h" />
     <ClInclude Include="src\math_extra.h" />
     <ClInclude Include="src\memory.h" />
@@ -157,6 +159,8 @@
     <ClInclude Include="src\MUSEsystem.h" />
     <ClInclude Include="src\pointers.h" />
     <ClInclude Include="src\STUBS\mpi.h" />
+    <ClInclude Include="src\style_command.h" />
+    <ClInclude Include="src\unistd.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

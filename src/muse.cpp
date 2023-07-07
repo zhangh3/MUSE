@@ -12,6 +12,7 @@
 #include "string.h"
 #include "muse.h"
 #include "memory.h"
+#include "input.h"
 #include "version.h"
 #include "ensemble.h"
 #include "error.h"
@@ -28,10 +29,15 @@
 using namespace MUSE_NS;
 MUSE::MUSE(int narg, char **arg, MPI_Comm communicator)
 {
+	int me;
+	MPI_Comm_rank(world, &me);
 
 	screen = stdout;
 	logfile = NULL;
 	infile = NULL;
+
+	int inflag = 0;
+
 
 	nBodies  = maxBodies  = 0;
 	nJoints  = maxJoints  = 0;
@@ -45,12 +51,34 @@ MUSE::MUSE(int narg, char **arg, MPI_Comm communicator)
   error = new Error(this);
   ensemble = new Ensemble(this,communicator);
 
+  int iarg = 1;
+  while (iarg < narg) {
+	  if (strcmp(arg[iarg], "-in") == 0 ||
+		  strcmp(arg[iarg], "-i") == 0) {
+		  if (iarg + 2 > narg)
+			  error->all(FLERR, "Invalid command-line argument");
+		  inflag = iarg + 1;
+		  iarg += 2;
+	  }
+	  else error->all(FLERR, "Invalid command-line argument");
+  }
 
 
-  
+  if (me == 0) {
+	  if (inflag == 0) infile = stdin;
+	  else infile = fopen(arg[inflag], "r");
+	  if (infile == NULL) {
+		  char str[128];
+		  sprintf(str, "Cannot open input script %s", arg[inflag]);
+		  error->one(FLERR, str);
+	  }
+  }
 
-  int me;
-  MPI_Comm_rank(world,&me);
+
+  input = new Input(this, narg, arg);
+
+
+
   if (me==0)
   {
 
@@ -75,6 +103,7 @@ MUSE::~MUSE()
 	delete ensemble;
 	delete error;
 	delete memory;
+	delete input;
 
 	for (int i = 0; i < nSystems; i++) delete system[i];
 	memory->sfree(system);

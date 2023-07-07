@@ -34,6 +34,7 @@ class Pointers {
     ensemble(ptr->ensemble),
     error(ptr->error),
 	world(ptr->world),
+    input(ptr->input),
     infile(ptr->infile),
     screen(ptr->screen),
     logfile(ptr->logfile) {}
@@ -45,6 +46,7 @@ class Pointers {
   Memory *&memory;
   Error *&error;
   Ensemble *&ensemble;
+  Input *&input;
 
   MPI_Comm &world;
   FILE *&infile;

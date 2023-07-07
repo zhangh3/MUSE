@@ -60,3 +60,15 @@ void Error::message(const char *file, int line, const char *str, int logflag)
   if (screen) fprintf(screen,"%s (%s:%d)\n",str,file,line);
   if (logfile) fprintf(screen,"%s (%s:%d)\n",str,file,line);
 }
+
+void Error::done()
+{
+	MPI_Barrier(world);
+
+	//if (output) delete output;
+	if (screen && screen != stdout) fclose(screen);
+	if (logfile) fclose(logfile);
+
+	MPI_Finalize();
+	exit(1);
+}

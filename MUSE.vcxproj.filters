@@ -51,6 +51,9 @@
     <ClCompile Include="src\MUSEsystem.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\input.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\STUBS\mpi.h">
@@ -87,6 +90,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\version.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\input.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\unistd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\style_command.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
