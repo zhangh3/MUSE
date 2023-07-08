@@ -54,6 +54,9 @@
     <ClCompile Include="src\input.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\create_body.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\STUBS\mpi.h">
@@ -99,6 +102,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\style_command.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\create_body.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

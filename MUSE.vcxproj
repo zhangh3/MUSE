@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\body.cpp" />
+    <ClCompile Include="src\create_body.cpp" />
     <ClCompile Include="src\ensemble.cpp" />
     <ClCompile Include="src\error.cpp" />
     <ClCompile Include="src\input.cpp" />
@@ -148,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\body.h" />
+    <ClInclude Include="src\create_body.h" />
     <ClInclude Include="src\ensemble.h" />
     <ClInclude Include="src\enums.h" />
     <ClInclude Include="src\error.h" />
