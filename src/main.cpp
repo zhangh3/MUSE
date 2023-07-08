@@ -132,7 +132,8 @@ int main(int argc, char **argv){
 	MUSE *muse = new MUSE(argc,argv,MPI_COMM_WORLD);
 
 	muse->input->file();
-
+	//cout << muse->body[0]->name;
+	//cout << muse->body[1]->name;
 	delete muse;
 
 

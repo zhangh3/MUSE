@@ -19,6 +19,7 @@
 #include "math_extra.h"
 #include "error.h"
 #include "memory.h"
+#include "style_command.h"
 
 using namespace MUSE_NS;
 
@@ -467,11 +468,12 @@ int Input::execute_command()
 
     // check if command is added via style.h
 
+
     if (0) return 0;      // dummy line to enable else-if macro expansion
 #define COMMAND_CLASS
 #define CommandStyle(key,Class)         \
   else if (strcmp(command,#key) == 0) { \
-    Class cmd_obj(sparta);              \
+    Class cmd_obj(muse);              \
     cmd_obj.command(narg,arg);          \
     flag = 1;                           \
   }
