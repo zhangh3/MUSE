@@ -54,6 +54,7 @@ public:
 
 	void set_Name(char *);
 	void set_Quaternion(double *);
+	void set_Omega(double, double, double);
 	void set_Mass(double);
 	void set_Inertia(double,double,double,double,double,double);
 	void refresh();

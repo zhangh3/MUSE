@@ -22,6 +22,7 @@ Body::Body(MUSE *muse) : Pointers(muse)
 	pos   << 0,0,0 ;
 	vel   << 0,0,0 ;
 	quat  << 0, 0, 0, 1;          //  {w,x,y,z}   w + xi + yj + zk;
+	omega << 0, 0, 0;
 	quatd << 0, 0, 0, 0;
 	mass = 1;
 	set_Inertia(1,1,1,0,0,0);
@@ -71,6 +72,15 @@ void Body::set_Quaternion(double *newquat)
 		error->warning(FLERR,str);
 	}
 	quat.normalize();
+	T << 2 * (quat(3) * Eigen::Matrix3d::Identity() - MathExtra::crs(quat.head(3))), -2 * quat.head(3);
+	quatd = 0.25 * T.transpose() * omega; // ÐÞ¸Äquatd
+}
+
+void MUSE_NS::Body::set_Omega(double wx, double wy, double wz)
+{
+	omega << wx, wy, wz;
+	T << 2 * (quat(3) * Eigen::Matrix3d::Identity() - MathExtra::crs(quat.head(3))), -2 * quat.head(3);
+	quatd = 0.25 * T.transpose() * omega;
 }
 
 

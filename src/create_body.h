@@ -23,6 +23,7 @@ namespace MUSE_NS {
 
 class CreateBody : protected Pointers {
  public:
+	 int id;
 	 CreateBody(class MUSE *);
   void command(int, char **);
 };
