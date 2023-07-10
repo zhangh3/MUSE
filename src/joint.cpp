@@ -68,6 +68,31 @@ void Joint::set_type(int newtype)
 	
 }
 
+void MUSE_NS::Joint::set_axis(double a1, double a2, double a3, int i)
+{
+	double len = sqrt(a1 * a1 + a2 * a2 + a3 * a3);
+	if ( len < QUATERR) {
+		char str[128];
+		sprintf(str, "The axis modulus of joint %s is too small", name);
+		error->all(FLERR, str);
+	}
+
+	if (fabs(len - 1) > NORMERR) {
+		char str[128];
+		sprintf(str, "axis%d of joint %s is not normalized", i , name);
+		error->warning(FLERR, str);
+	}
+
+	if (i==1) {
+		axis1 << a1, a2, a3;
+		axis1.normalize();
+	}
+	else {
+		axis2 << a1, a2, a3;
+		axis2.normalize();
+	}
+}
+
 
 void Joint::uglyconstrainteq()
 {

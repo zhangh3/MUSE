@@ -143,6 +143,10 @@ int main(int argc, char **argv){
 	cout << muse->body[1]->quat << endl;
 	cout << muse->body[1]->omega << endl;
 	cout << muse->body[1]->quatd << endl;
+
+	cout << muse->joint[0]->body[0]->name << endl;
+	cout << muse->joint[0]->body[1]->name << endl;
+	cout << muse->joint[0]->axis2 << endl;
 	delete muse;
 
 

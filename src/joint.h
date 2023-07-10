@@ -11,6 +11,9 @@
 #ifndef MUSE_JOINT_H
 #define MUSE_JOINT_H
 
+#define QUATERR 1E-8
+#define NORMERR 1E-3
+
 #include "pointers.h"
 #include "body.h"
 #include "MUSEsystem.h"
@@ -48,6 +51,7 @@ public:
 
 	void set_Name(char*);
 	void set_type(int);
+	void set_axis(double, double, double, int);
 	int get_type();
 
 private:
