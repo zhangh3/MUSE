@@ -473,7 +473,7 @@ int Input::execute_command()
 #define COMMAND_CLASS
 #define CommandStyle(key,Class)         \
   else if (strcmp(command,#key) == 0) { \
-    Class cmd_obj(muse);              \
+    Class cmd_obj(muse);                \
     cmd_obj.command(narg,arg);          \
     flag = 1;                           \
   }

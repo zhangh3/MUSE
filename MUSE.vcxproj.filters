@@ -60,6 +60,9 @@
     <ClCompile Include="src\create_joint.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\create_system.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\STUBS\mpi.h">
@@ -111,6 +114,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\create_joint.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\create_system.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

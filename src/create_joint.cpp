@@ -74,7 +74,7 @@ void CreateJoint::command(int narg, char **arg)
             }
             else {
                 char str[128];
-                sprintf(str, "Cannot body with name: %s", arg[iarg + 1]);
+                sprintf(str, "Cannot find body with name: %s", arg[iarg + 1]);
                 error->all(FLERR, str);
             }
             iarg = iarg + 2;

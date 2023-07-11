@@ -124,6 +124,7 @@ int test(MUSE *muse)
 	{
 		out << muse->system[0]->xlog[i].transpose() << endl;
 	}
+	return 0;
 }
 
 int main(int argc, char **argv){
@@ -133,24 +134,35 @@ int main(int argc, char **argv){
 	MUSE *muse = new MUSE(argc,argv,MPI_COMM_WORLD);
 
 	muse->input->file();
-	cout << muse->body[0]->name << endl;
-	cout << muse->body[0]->mass << endl;
-	cout << muse->body[0]->inertia << endl;
-	cout << muse->body[0]->omega << endl;
-	cout << muse->body[0]->quatd << endl;
 
-	cout << muse->body[1]->name << endl;
-	cout << muse->body[1]->quat << endl;
-	cout << muse->body[1]->omega << endl;
-	cout << muse->body[1]->quatd << endl;
+	//cout << muse->body[0]->name << endl;
+	//cout << muse->body[0]->mass << endl;
+	//cout << muse->body[0]->inertia << endl;
+	//cout << muse->body[0]->omega << endl;
+	//cout << muse->body[0]->quatd << endl;
+	//cout << muse->body[1]->name << endl;
+	//cout << muse->body[1]->quat << endl;
+	//cout << muse->body[1]->omega << endl;
+	//cout << muse->body[1]->quatd << endl;
+	//cout << muse->joint[0]->body[0]->name << endl;
+	//cout << muse->joint[0]->body[1]->name << endl;
+	//cout << muse->joint[0]->axis2 << endl;
+	//cout << muse->system[0]->dt << endl;
 
-	cout << muse->joint[0]->body[0]->name << endl;
-	cout << muse->joint[0]->body[1]->name << endl;
-	cout << muse->joint[0]->axis2 << endl;
+	muse->system[0]->setup();
+	clock_t start, end;
+	start = clock();
+	muse->system[0]->solve(30);
+	end = clock();
+
+	cout << "run time: " << fixed << setprecision(2) << 1000 * (double)(end - start) / CLOCKS_PER_SEC << "ms" << endl;
+	ofstream out;
+	out.open("C:/Users/75241/Desktop/resat1.txt", ios::out);
+	for (int i = 0; i < muse->system[0]->xlog.size();i++)
+	{
+		out << muse->system[0]->xlog[i].transpose() << endl;
+	}
 	delete muse;
-
-
-
 	MPI_Finalize();
 	//getchar();
 }

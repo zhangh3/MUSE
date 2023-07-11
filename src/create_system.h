@@ -7,6 +7,32 @@
    This software is distributed under the GNU General Public License.
    Copyright (c) 2023 Zhang He. All rights reserved.
 ------------------------------------------------------------------------- */
-#include "create_body.h"
-#include "create_joint.h"
-#include "create_system.h"
+
+#ifdef COMMAND_CLASS
+
+CommandStyle(create_system,CreateSystem)
+
+#else
+
+#ifndef MUSE_CREATE_SYSTEM_H
+#define MUSE_CREATE_SYSTEM_H
+
+#include "pointers.h"
+
+namespace MUSE_NS {
+
+class CreateSystem : protected Pointers {
+ public:
+	 int id;
+	 CreateSystem(class MUSE *);
+  void command(int, char **);
+};
+
+}
+
+#endif
+#endif
+
+/* ERROR/WARNING messages:
+
+*/
