@@ -41,6 +41,14 @@ public:
 	double timenow;
 	double dt;
 
+	int ntimestep;
+	int nsteps;
+	int firststep;
+	int laststep;
+	int beginstep;
+	int endstep;
+	int first_update;
+
 	char* name;
 
 	int nBodies;
@@ -71,7 +79,7 @@ public:
 	void update_RK4();
 	void calxdd();
 	void x2body();
-	void solve(double);
+	void solve(int);
 
 
 

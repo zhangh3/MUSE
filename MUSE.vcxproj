@@ -147,6 +147,7 @@
     <ClCompile Include="src\memory.cpp" />
     <ClCompile Include="src\muse.cpp" />
     <ClCompile Include="src\MUSEsystem.cpp" />
+    <ClCompile Include="src\run.cpp" />
     <ClCompile Include="src\STUBS\mpi.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +165,7 @@
     <ClInclude Include="src\muse.h" />
     <ClInclude Include="src\MUSEsystem.h" />
     <ClInclude Include="src\pointers.h" />
+    <ClInclude Include="src\run.h" />
     <ClInclude Include="src\STUBS\mpi.h" />
     <ClInclude Include="src\style_command.h" />
     <ClInclude Include="src\unistd.h" />

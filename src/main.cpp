@@ -150,12 +150,8 @@ int main(int argc, char **argv){
 	//cout << muse->system[0]->dt << endl;
 
 	muse->system[0]->setup();
-	clock_t start, end;
-	start = clock();
-	muse->system[0]->solve(30);
-	end = clock();
 
-	cout << "run time: " << fixed << setprecision(2) << 1000 * (double)(end - start) / CLOCKS_PER_SEC << "ms" << endl;
+
 	ofstream out;
 	out.open("C:/Users/75241/Desktop/resat1.txt", ios::out);
 	for (int i = 0; i < muse->system[0]->xlog.size();i++)
