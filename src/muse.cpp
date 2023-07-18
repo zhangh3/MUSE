@@ -29,7 +29,6 @@
 using namespace MUSE_NS;
 MUSE::MUSE(int narg, char **arg, MPI_Comm communicator)
 {
-	int me;
 	MPI_Comm_rank(world, &me);
 
 	screen = stdout;

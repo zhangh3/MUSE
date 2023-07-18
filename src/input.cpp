@@ -20,6 +20,7 @@
 #include "error.h"
 #include "memory.h"
 #include "style_command.h"
+#include "variable.h"
 
 using namespace MUSE_NS;
 
@@ -51,7 +52,27 @@ Input::Input(MUSE *muse, int argc, char **argv) : Pointers(muse)
     infiles = (FILE **) memory->smalloc(sizeof(FILE *),"input:infiles");
     infiles[0] = infile;
   } else infiles = NULL;
+  variable = new Variable(muse);
 
+  int iarg = 0;
+  while (iarg < argc) {
+      if (strcmp(argv[iarg], "-var") == 0 || strcmp(argv[iarg], "-v") == 0) {
+          int jarg = iarg + 3;
+          while (jarg < argc && argv[jarg][0] != '-') jarg++;
+          variable->set(argv[iarg + 1], jarg - iarg - 2, &argv[iarg + 2]);
+          iarg = jarg;
+      }
+      else if (strcmp(argv[iarg], "-echo") == 0 ||
+          strcmp(argv[iarg], "-e") == 0) {
+          narg = 1;
+          char** tmp = arg;        // trick echo() into using argv instead of arg
+          arg = &argv[iarg + 1];
+          echo();
+          arg = tmp;
+          iarg += 2;
+      }
+      else iarg++;
+  }
 }
 
 /* ---------------------------------------------------------------------- */
@@ -323,7 +344,6 @@ char *Input::nextword(char *str, char **next)
 }
 
 
-//--//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!需要修改variable相关内容
 void Input::substitute(char*& str, char*& str2, int& max, int& max2, int flag)
 {
     // use str2 as scratch space to expand str, then copy back to str
@@ -362,7 +382,7 @@ void Input::substitute(char*& str, char*& str2, int& max, int& max2, int flag)
                 if (var[i] == '\0') error->one(FLERR, "Invalid variable name");
                 var[i] = '\0';
                 beyond = ptr + strlen(var) + 3;
-                //--//value = variable->retrieve(var);
+                value = variable->retrieve(var);
 
                 // immediate variable between parenthesis, e.g. $(1/2)
 
@@ -384,7 +404,7 @@ void Input::substitute(char*& str, char*& str2, int& max, int& max2, int flag)
                 if (var[i] == '\0') error->one(FLERR, "Invalid immediate variable");
                 var[i] = '\0';
                 beyond = ptr + strlen(var) + 3;
-                //--//sprintf(immediate, "%.20g", variable->compute_equal(var));
+                sprintf(immediate, "%.20g", variable->compute_equal(var));
                 value = immediate;
 
                 // single character variable name, e.g. $a
@@ -395,7 +415,7 @@ void Input::substitute(char*& str, char*& str2, int& max, int& max2, int flag)
                 var[0] = var[1];
                 var[1] = '\0';
                 beyond = ptr + 2;
-                //--//value = variable->retrieve(var);
+                value = variable->retrieve(var);
             }
 
             if (value == NULL) error->one(FLERR, "Substitution for illegal variable");
@@ -459,6 +479,11 @@ int Input::execute_command()
     if (!strcmp(command, "echo")) echo();
     else if (!strcmp(command, "shell")) shell();
     else if (!strcmp(command, "print")) print();
+    else if (!strcmp(command, "label")) label();
+    else if (!strcmp(command, "variable")) variable_command();
+    else if (!strcmp(command, "if")) ifthenelse();
+    else if (!strcmp(command, "next")) next_command();
+    else if (!strcmp(command, "jump")) jump();
 
     else flag = 0;
 
@@ -509,6 +534,125 @@ void Input::echo()
     echo_screen = 1;
     echo_log = 1;
   } else error->all(FLERR,"Illegal echo command");
+}
+
+
+/* ---------------------------------------------------------------------- */
+
+void Input::ifthenelse()
+{
+    if (narg < 3) error->all(FLERR, "Illegal if command");
+
+    // substitute for variables in Boolean expression for "if"
+    // in case expression was enclosed in quotes
+    // must substitute on copy of arg else will step on subsequent args
+
+    int n = strlen(arg[0]) + 1;
+    if (n > maxline) reallocate(line, maxline, n);
+    strcpy(line, arg[0]);
+    substitute(line, work, maxline, maxwork, 0);
+
+    // evaluate Boolean expression for "if"
+
+    double btest = variable->evaluate_boolean(line);
+
+    // bound "then" commands
+
+    if (strcmp(arg[1], "then") != 0) error->all(FLERR, "Illegal if command");
+
+    int first = 2;
+    int iarg = first;
+    while (iarg < narg &&
+        (strcmp(arg[iarg], "elif") != 0 && strcmp(arg[iarg], "else") != 0))
+        iarg++;
+    int last = iarg - 1;
+
+    // execute "then" commands
+    // make copies of all arg string commands
+    // required because re-parsing a command via one() will wipe out args
+
+    if (btest != 0.0) {
+        int ncommands = last - first + 1;
+        if (ncommands <= 0) error->all(FLERR, "Illegal if command");
+
+        char** commands = new char* [ncommands];
+        ncommands = 0;
+        for (int i = first; i <= last; i++) {
+            int n = strlen(arg[i]) + 1;
+            if (n == 1) error->all(FLERR, "Illegal if command");
+            commands[ncommands] = new char[n];
+            strcpy(commands[ncommands], arg[i]);
+            ncommands++;
+        }
+
+        ifthenelse_flag = 1;
+        for (int i = 0; i < ncommands; i++) one(commands[i]);
+        ifthenelse_flag = 0;
+
+        for (int i = 0; i < ncommands; i++) delete[] commands[i];
+        delete[] commands;
+
+        return;
+    }
+
+    // done if no "elif" or "else"
+
+    if (iarg == narg) return;
+
+    // check "elif" or "else" until find commands to execute
+    // substitute for variables and evaluate Boolean expression for "elif"
+    // must substitute on copy of arg else will step on subsequent args
+    // bound and execute "elif" or "else" commands
+
+    while (1) {
+        if (iarg + 2 > narg) error->all(FLERR, "Illegal if command");
+        if (strcmp(arg[iarg], "elif") == 0) {
+            n = strlen(arg[iarg + 1]) + 1;
+            if (n > maxline) reallocate(line, maxline, n);
+            strcpy(line, arg[iarg + 1]);
+            substitute(line, work, maxline, maxwork, 0);
+            btest = variable->evaluate_boolean(line);
+            first = iarg + 2;
+        }
+        else {
+            btest = 1.0;
+            first = iarg + 1;
+        }
+
+        iarg = first;
+        while (iarg < narg &&
+            (strcmp(arg[iarg], "elif") != 0 && strcmp(arg[iarg], "else") != 0))
+            iarg++;
+        last = iarg - 1;
+
+        if (btest == 0.0) continue;
+
+        int ncommands = last - first + 1;
+        if (ncommands <= 0) error->all(FLERR, "Illegal if command");
+
+        char** commands = new char* [ncommands];
+        ncommands = 0;
+        for (int i = first; i <= last; i++) {
+            int n = strlen(arg[i]) + 1;
+            if (n == 1) error->all(FLERR, "Illegal if command");
+            commands[ncommands] = new char[n];
+            strcpy(commands[ncommands], arg[i]);
+            ncommands++;
+        }
+
+        // execute the list of commands
+
+        ifthenelse_flag = 1;
+        for (int i = 0; i < ncommands; i++) one(commands[i]);
+        ifthenelse_flag = 0;
+
+        // clean up
+
+        for (int i = 0; i < ncommands; i++) delete[] commands[i];
+        delete[] commands;
+
+        return;
+    }
 }
 
 
@@ -586,7 +730,10 @@ void Input::label()
 /* ---------------------------------------------------------------------- */
 
 
-
+void Input::next_command()
+{
+    if (variable->next(narg, arg)) jump_skip = 1;
+}
 
 /* ---------------------------------------------------------------------- */
 
@@ -717,7 +864,10 @@ void Input::shell()
 }
 
 /* ---------------------------------------------------------------------- */
-
+void Input::variable_command()
+{
+    variable->set(narg, arg);
+}
 
 /* ----------------------------------------------------------------------
    read a floating point value from a string

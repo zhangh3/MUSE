@@ -147,8 +147,11 @@
     <ClCompile Include="src\memory.cpp" />
     <ClCompile Include="src\muse.cpp" />
     <ClCompile Include="src\MUSEsystem.cpp" />
+    <ClCompile Include="src\random_mars.cpp" />
+    <ClCompile Include="src\random_park.cpp" />
     <ClCompile Include="src\run.cpp" />
     <ClCompile Include="src\STUBS\mpi.cpp" />
+    <ClCompile Include="src\variable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\body.h" />
@@ -165,10 +168,13 @@
     <ClInclude Include="src\muse.h" />
     <ClInclude Include="src\MUSEsystem.h" />
     <ClInclude Include="src\pointers.h" />
+    <ClInclude Include="src\random_mars.h" />
+    <ClInclude Include="src\random_park.h" />
     <ClInclude Include="src\run.h" />
     <ClInclude Include="src\STUBS\mpi.h" />
     <ClInclude Include="src\style_command.h" />
     <ClInclude Include="src\unistd.h" />
+    <ClInclude Include="src\variable.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
