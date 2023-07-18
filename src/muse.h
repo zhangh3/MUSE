@@ -27,14 +27,14 @@ namespace MUSE_NS{
 		class Body **body;             // list of ptrs to the bodies 
 		class Joint **joint;           // list of ptrs to the joints 
 
-
-		
 		
 		MPI_Comm world;
 		FILE *screen;
 		FILE *logfile;
 		FILE *infile;
+		int me;
 
+		
 		int nBodies;
 		int nJoints;
 		int nSystems;

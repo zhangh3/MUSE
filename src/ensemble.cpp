@@ -12,6 +12,7 @@
 #include "mpi.h"
 #include "ensemble.h"
 #include "memory.h"
+#include "random_mars.h"
 
 using namespace MUSE_NS;
 
@@ -24,6 +25,7 @@ Ensemble::Ensemble(MUSE *muse, MPI_Comm communicator) : Pointers(muse)
   uscreen = stdout;
   ulogfile = NULL;
   nSim = 1;
+  ranmaster = new RanMars(muse);
 
 }
 

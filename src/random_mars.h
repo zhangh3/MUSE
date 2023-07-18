@@ -8,28 +8,27 @@
    Copyright (c) 2023 Zhang He. All rights reserved.
 ------------------------------------------------------------------------- */
 
-#ifndef MUSE_ENSEMBLE_H
-#define MUSE_ENSEMBLE_H
+#ifndef MUSE_RAN_MARS_H
+#define MUSE_RAN_MARS_H
 
 #include "pointers.h"
 
 namespace MUSE_NS {
 
-class Ensemble : protected Pointers {
+class RanMars : protected Pointers {
  public:
+  RanMars(class MUSE *);
+  ~RanMars();
+  void init(int);
+  double uniform();
+  double gaussian();
 
-  MPI_Comm world;         // communicator for entire universe
-  int me,nprocs;          // my place in universe
-
-  FILE *uscreen;          // universe screen output
-  FILE *ulogfile;         // universe logfile
-
-  int nSim;            // Simulations number
-
-  class RanMars* ranmaster;   // master random number generator
-
-  Ensemble(class MUSE *, MPI_Comm);
-  ~Ensemble();
+ private:
+  int initflag,save;
+  int i97,j97;
+  double c,cd,cm;
+  double second;
+  double *u;
 };
 
 }

@@ -66,6 +66,15 @@
     <ClCompile Include="src\run.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\variable.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\random_mars.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\random_park.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\STUBS\mpi.h">
@@ -123,6 +132,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\run.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\variable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\random_mars.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\random_park.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
