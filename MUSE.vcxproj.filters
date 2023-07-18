@@ -18,7 +18,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\STUBS\mpi.cpp">
+    <ClCompile Include="src\STUBS\mpi.c">
       <Filter>STUBS</Filter>
     </ClCompile>
     <ClCompile Include="src\body.cpp">
@@ -116,7 +116,7 @@
     <ClInclude Include="src\input.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\unistd.h">
+    <ClInclude Include="src\MUSEunistd.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\style_command.h">

@@ -13,7 +13,7 @@
 #include "stdlib.h"
 #include "string.h"
 #include "ctype.h"
-#include "unistd.h"
+#include "MUSEunistd.h"
 #include "sys/stat.h"
 #include "input.h"
 #include "math_extra.h"

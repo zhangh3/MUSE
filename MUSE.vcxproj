@@ -150,7 +150,7 @@
     <ClCompile Include="src\random_mars.cpp" />
     <ClCompile Include="src\random_park.cpp" />
     <ClCompile Include="src\run.cpp" />
-    <ClCompile Include="src\STUBS\mpi.cpp" />
+    <ClCompile Include="src\STUBS\mpi.c" />
     <ClCompile Include="src\variable.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -173,7 +173,7 @@
     <ClInclude Include="src\run.h" />
     <ClInclude Include="src\STUBS\mpi.h" />
     <ClInclude Include="src\style_command.h" />
-    <ClInclude Include="src\unistd.h" />
+    <ClInclude Include="src\MUSEunistd.h" />
     <ClInclude Include="src\variable.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
