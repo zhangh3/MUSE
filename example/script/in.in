@@ -1,0 +1,22 @@
+print TESTing
+
+create_body b1  pos 0 0 0 quat 0 0 0 1
+create_body b2  pos 1 0 0 quat 0 0 0 1
+create_body b3  pos 2 0 0 quat 0 0 0 1
+
+create_joint j1  sphere body1 b1 body2 b2 point1 0.5 0 0 point2 -0.5 0 0 
+create_joint j2  sphere body1 b2 body2 b3 point1 0.5 0 0 point2 -0.5 0 0 
+create_joint grd ground body1 b1 
+
+create_system s1 bodys b1 b2 b3 /bodys joints j1 j2 grd /joints dt 1E-3 gravity 0 9.8 0
+run s1 50
+
+label	    loop
+variable    a loop 5
+print	    "A = $a"
+if	    "$a > 2" then "jump in.in break"
+next	    a
+jump	    in.in loop
+label	    break
+print	    "BREAK A = $a"
+variable    a delete
