@@ -1,0 +1,77 @@
+# mpi = Linux box/cluster, g++, installed MPI
+
+SHELL = /bin/sh
+
+# ---------------------------------------------------------------------
+# compiler/linker settings
+# specify flags and libraries needed for your compiler
+
+CC =		mpic++
+CCFLAGS =	-O2
+SHFLAGS =	-fPIC
+DEPFLAGS =	-M
+
+LINK =		mpic++
+LINKFLAGS =	-O2
+LIB =           
+SIZE =		size
+
+ARCHIVE =	ar
+ARFLAGS =	-rc
+SHLIBFLAGS =	-shared
+
+# ---------------------------------------------------------------------
+# MUSE-specific settings
+
+MUSE_INC =
+
+# MPI library
+# can point to dummy MPI library in src/STUBS as in Makefile.serial
+# INC = path for mpi.h, MPI compiler settings
+# PATH = path for MPI library
+# LIB = name of MPI library
+
+MPI_INC =       
+MPI_PATH =      
+MPI_LIB =	
+
+# ---------------------------------------------------------------------
+# build rules and dependencies
+# no need to edit this section
+
+EXTRA_INC = $(MUSE_INC) $(MPI_INC) 
+EXTRA_PATH = $(MPI_PATH) 
+EXTRA_LIB = $(MPI_LIB)
+
+# Path to src files
+
+vpath %.cpp ..
+vpath %.h ..
+
+# Link target
+
+$(EXE):	$(OBJ)
+	$(LINK) $(LINKFLAGS) $(EXTRA_PATH) $(OBJ) $(EXTRA_LIB) $(LIB) -o $(EXE)
+	$(SIZE) $(EXE)
+
+# Library targets
+
+lib:	$(OBJ)
+	$(ARCHIVE) $(ARFLAGS) $(EXE) $(OBJ)
+
+shlib:	$(OBJ)
+	$(CC) $(CCFLAGS) $(SHFLAGS) $(SHLIBFLAGS) $(EXTRA_PATH) -o $(EXE) \
+        $(OBJ) $(EXTRA_LIB) $(LIB)
+
+# Compilation rules
+
+%.o:%.cpp
+	$(CC) $(CCFLAGS) $(SHFLAGS) $(EXTRA_INC) -c $<
+
+%.d:%.cpp
+	$(CC) $(CCFLAGS) $(EXTRA_INC) $(DEPFLAGS) $< > $@
+
+# Individual dependencies
+
+DEPENDS = $(OBJ:.o=.d)
+include $(DEPENDS)
