@@ -42,8 +42,10 @@ public:
 	
 	void constrainteq_sphere();
 	void constrainteq_ground();
-	void (MUSE_NS::Joint::* constrainteq)();
-	void uglyconstrainteq();
+	typedef void (Joint::* FnPtr)();
+	FnPtr consptr;
+	
+	void runconstrainteq();
 
 
 	Joint(class MUSE *);

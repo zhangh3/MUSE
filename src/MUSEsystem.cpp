@@ -66,11 +66,15 @@ void System::set_Name(char* newname)
 
 void System::solve(int nsteps)
 {
+	
 	first_update = 1; 
 	int ibody, ijoint;
 
 	for (ibody = 0; ibody < nBodies; ibody++) muse->body[ibody]->refresh();
-	for (ijoint = 0; ijoint < nJoints; ijoint++) muse->joint[ijoint]->uglyconstrainteq();
+	for (ijoint = 0; ijoint < nJoints; ijoint++) muse->joint[ijoint]->runconstrainteq();
+
+	
+	
 
 	for (ibody = 0; ibody < nBodies; ibody++) {
 		x.segment(ibody * 7, 3) = body[ibody]->pos;
@@ -203,7 +207,7 @@ void System::x2body()
 		ibegin += 4;
 	}
 	for (ibody = 0; ibody < nBodies; ibody++) muse->body[ibody]->refresh();
-	for (ijoint = 0; ijoint < nJoints; ijoint++) muse->joint[ijoint]->uglyconstrainteq();
+	for (ijoint = 0; ijoint < nJoints; ijoint++) muse->joint[ijoint]->runconstrainteq();
 }
 
 int System::add_Body(Body *bodynow)

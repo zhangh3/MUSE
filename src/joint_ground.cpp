@@ -18,6 +18,7 @@ using namespace Eigen;
 /* ---------------------------------------------------------------------- */
 void Joint::constrainteq_ground()
 {
+
 	A1 << Matrix3d::Identity(), MatrixXd::Zero(3,4),
 		MatrixXd::Zero(4, 3), Matrix4d::Identity();
 

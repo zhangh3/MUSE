@@ -12,7 +12,7 @@
 #include "stdlib.h"
 #include "string.h"
 #include "ctype.h"
-#include "unistd.h"
+#include "MUSEunistd.h"
 #include "variable.h"
 #include "input.h"
 #include "random_mars.h"

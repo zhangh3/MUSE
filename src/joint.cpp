@@ -26,7 +26,7 @@ Joint::Joint(MUSE *muse) : Pointers(muse)
 	body[0] = NULL;
 	body[1] = NULL;
 
-	constrainteq = NULL;
+	consptr = NULL;
 
 	mySystem = NULL;
 	IDinSystem = -1;
@@ -49,14 +49,14 @@ void Joint::set_type(int newtype)
 	{
 	case SPHERE:
 		type = newtype;
-		constrainteq = &MUSE_NS::Joint::constrainteq_sphere;
+		consptr = &Joint::constrainteq_sphere;
 		A1.resize(3, 7);
 		A2.resize(3, 7);
 		b.resize(3);
 		break;
 	case GROUND:
 		type = newtype;
-		constrainteq = &MUSE_NS::Joint::constrainteq_ground;
+		consptr = &Joint::constrainteq_ground;
 		A1.resize(7, 7);
 		A2.resize(0, 0);
 		b.resize(7);
@@ -94,8 +94,11 @@ void MUSE_NS::Joint::set_axis(double a1, double a2, double a3, int i)
 }
 
 
-void Joint::uglyconstrainteq()
+void Joint::runconstrainteq()
 {
+
+	(this->*consptr)();
+/* FIXME
 	switch (type)
 	{
 	case SPHERE:
@@ -108,6 +111,7 @@ void Joint::uglyconstrainteq()
 		error->all(FLERR, "Undefined joint type!");
 		break;
 	}
+*/
 }
 
 int MUSE_NS::Joint::get_type()
