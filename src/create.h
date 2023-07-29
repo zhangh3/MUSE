@@ -10,22 +10,25 @@
 
 #ifdef COMMAND_CLASS
 
-CommandStyle(create_body,CreateBody)
+CommandStyle(create,Create)
 
 #else
 
-#ifndef MUSE_CREATE_BODY_H
-#define MUSE_CREATE_BODY_H
+#ifndef MUSE_CREATE_H
+#define MUSE_CREATE_H
 
 #include "pointers.h"
 
 namespace MUSE_NS {
 
-class CreateBody : protected Pointers {
+class Create : protected Pointers {
  public:
 	 int id;
-	 CreateBody(class MUSE *);
-  void command(int, char **);
+	 Create(class MUSE *);
+	 void command(int, char**);
+	 void create_body(int, char**);
+	 void create_joint(int, char**);
+	 void create_system(int, char**);
 };
 
 }

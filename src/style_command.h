@@ -7,7 +7,7 @@
    This software is distributed under the GNU General Public License.
    Copyright (c) 2023 Zhang He. All rights reserved.
 ------------------------------------------------------------------------- */
-#include "create_body.h"
-#include "create_joint.h"
-#include "create_system.h"
+
+#include "create.h"
+#include "change.h"
 #include "run.h"
