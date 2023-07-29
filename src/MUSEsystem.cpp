@@ -226,10 +226,42 @@ int System::add_Body(Body *bodynow)
 			body = (Body**)memory->srealloc(body, maxBodies * sizeof(Body*), "muse:body");
 		}
 	}
+	if (bodynow->mySystem != NULL)
+	{
+		char str[128];
+		sprintf(str, "Body %s has been added to a system %s ", bodynow->name, bodynow->mySystem->name);
+		error->warning(FLERR, str);
+	}
 	body[ibody] = bodynow;
 	body[ibody]->IDinSystem = ibody;
 	body[ibody]->mySystem=this;
 	nBodies++;
+	return ibody;
+}
+
+int MUSE_NS::System::remove_Body(Body *bodynow)
+{
+	int ibody, ibody1;
+
+	for (ibody = 0; ibody < nBodies; ibody++)
+		if (strcmp(bodynow->name, body[ibody]->name) == 0) break;
+
+	if (ibody == nBodies) {
+		char str[128];
+		sprintf(str, "Cannot find body %s in system: %s", body[ibody]->name, this->name);
+		error->all(FLERR, str);
+	}
+
+	body[ibody]->IDinSystem = -1;
+	body[ibody]->mySystem = NULL;
+
+	for (ibody1 = ibody; ibody1 < nBodies - 1; ibody1++)
+	{
+		body[ibody1] = body[ibody1 + 1];
+		body[ibody1]->IDinSystem--;
+	}
+	nBodies--;
+	body[nBodies] = NULL;
 	return ibody;
 }
 
@@ -249,6 +281,12 @@ int System::add_Joint(Joint *jointnow)
 			joint = (Joint**)memory->srealloc(joint, maxJoints * sizeof(Joint*), "muse:joint");
 		}
 	}
+	if (jointnow->mySystem != NULL)
+	{
+		char str[128];
+		sprintf(str, "Joint %s has been added to a system %s ", jointnow->name, jointnow->mySystem->name);
+		error->warning(FLERR, str);
+	}
 	joint[ijoint] = jointnow;
 	joint[ijoint]->IDinSystem = ijoint;
 	joint[ijoint]->mySystem = this;
@@ -257,9 +295,36 @@ int System::add_Joint(Joint *jointnow)
 	return ijoint;
 }
 
+int MUSE_NS::System::remove_Joint(Joint *jointnow)
+{
+	int ijoint, ijoint1;
+
+	for (ijoint = 0; ijoint < nJoints; ijoint++)
+		if (strcmp(jointnow->name, joint[ijoint]->name) == 0) break;
+
+	if (ijoint == nJoints) {
+		char str[128];
+		sprintf(str, "Cannot find joint %s in system: %s", joint[ijoint]->name, this->name);
+		error->all(FLERR, str);
+	}
+
+	joint[ijoint]->IDinSystem = -1;
+	joint[ijoint]->mySystem = NULL;
+
+	for (ijoint1 = ijoint; ijoint1 < nJoints - 1; ijoint1++)
+	{
+		joint[ijoint1] = joint[ijoint1 + 1];
+		joint[ijoint1]->IDinSystem--;
+	}
+	nJoints--;
+	joint[nJoints] = NULL;
+	return ijoint;
+}
+
 
 void System::setup()
 {
+	//std::cout << "setup!!!" << std::endl;
 	int rowsum, ijoint;
 	rowsum = 0;
 	for (ijoint = 0; ijoint < nJoints; ijoint++)

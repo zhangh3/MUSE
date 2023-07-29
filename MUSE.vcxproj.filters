@@ -54,15 +54,6 @@
     <ClCompile Include="src\input.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\create_body.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\create_joint.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\create_system.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\run.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -73,6 +64,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\random_park.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\change.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\create.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -122,15 +119,6 @@
     <ClInclude Include="src\style_command.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\create_body.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="src\create_joint.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="src\create_system.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="src\run.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -141,6 +129,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\random_park.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\change.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\create.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

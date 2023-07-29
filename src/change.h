@@ -10,22 +10,25 @@
 
 #ifdef COMMAND_CLASS
 
-CommandStyle(create_joint,CreateJoint)
+CommandStyle(change,Change)
 
 #else
 
-#ifndef MUSE_CREATE_JOINT_H
-#define MUSE_CREATE_JOINT_H
+#ifndef MUSE_CHANGE_H
+#define MUSE_CHANGE_H
 
 #include "pointers.h"
 
 namespace MUSE_NS {
 
-class CreateJoint : protected Pointers {
+class Change : protected Pointers {
  public:
 	 int id;
-	 CreateJoint(class MUSE *);
-  void command(int, char **);
+	 Change(class MUSE *);
+	 void command(int, char**);
+	 void change_body(int, char**);
+	 void change_joint(int, char**);
+	 void change_system(int, char**);
 };
 
 }

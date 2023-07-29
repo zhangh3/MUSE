@@ -53,6 +53,7 @@ public:
 
 	void set_Name(char*);
 	void set_type(int);
+	void set_type_by_name(char*);
 	void set_axis(double, double, double, int);
 	int get_type();
 

@@ -43,6 +43,17 @@ void Joint::set_Name(char* newname)
 	strcpy(name, newname);
 }
 
+void Joint::set_type_by_name(char* type_name)
+{
+	if (strcmp(type_name, "sphere") == 0) this->set_type(SPHERE);
+	else if (strcmp(type_name, "ground") == 0)  this->set_type(GROUND);
+	else {
+		char str[128];
+		sprintf(str, "Illegal joint type: %s", type_name);
+		error->all(FLERR, str);
+	}
+}
+
 void Joint::set_type(int newtype)
 {
 	switch (newtype)

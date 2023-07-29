@@ -135,20 +135,6 @@ int main(int argc, char **argv){
 
 	muse->input->file();
 
-	//cout << muse->body[0]->name << endl;
-	//cout << muse->body[0]->mass << endl;
-	//cout << muse->body[0]->inertia << endl;
-	//cout << muse->body[0]->omega << endl;
-	//cout << muse->body[0]->quatd << endl;
-	//cout << muse->body[1]->name << endl;
-	//cout << muse->body[1]->quat << endl;
-	//cout << muse->body[1]->omega << endl;
-	//cout << muse->body[1]->quatd << endl;
-	//cout << muse->joint[0]->body[0]->name << endl;
-	//cout << muse->joint[0]->body[1]->name << endl;
-	//cout << muse->joint[0]->axis2 << endl;
-	//cout << muse->system[0]->dt << endl;
-
 	muse->system[0]->setup();
 
 

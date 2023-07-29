@@ -69,7 +69,9 @@ public:
 	void set_Name(char*);
 
 	int add_Body(Body *);
+	int remove_Body(Body*);
 	int add_Joint(Joint *);
+	int remove_Joint(Joint*);
 
 	void setup();
 	void makeBigAb();
