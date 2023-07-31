@@ -13,8 +13,12 @@ MUSE由张贺开发，若有疑问请联系zhanghecalt@163.com。
 
 MUSE 包含以下文件与文件夹:
 
-README			   本文件
-LICENSE			   GNU General Public License (GPL)
-examples       计算示例
-src            源代码及makefile
-MUSE.sln       visual studio 工程          
+>README--------本文件  
+>LICENSE-------GNU General Public License (GPL)
+>MUSE.sln------visual studio 工程  
+>examples------计算示例  
+>src-------------源代码及makefile  
+>>Eigen------Eigen数学库  
+>>MAKE-------makefile组件  
+>>STUBS------串行用mpi替代库
+ 
