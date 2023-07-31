@@ -11,7 +11,7 @@ MUSE可以与CFD++等非定常CFD求解器耦合计算，完成飞行器变形/�
 MUSE 包含以下文件与文件夹:
 
 >README--------本文件  
->LICENSE-------GNU General Public License (GPL)
+>LICENSE-------GNU General Public License (GPL)  
 >MUSE.sln------visual studio 工程  
 >examples------计算示例  
 >src-------------源代码及makefile  
