@@ -134,6 +134,13 @@ void Create::create_joint(int narg, char** arg)
     id = muse->add_Joint(arg[0]);
     muse->joint[id]->set_type_by_name(arg[1]);
 
+    if (strcmp(arg[1], "sphere") == 0) muse->joint[id]->set_type(SPHERE);
+    else if (strcmp(arg[1], "ground") == 0)  muse->joint[id]->set_type(GROUND);
+    else {
+        char str[128];
+        sprintf(str, "Illegal joint type: %s", arg[1]);
+        error->all(FLERR, str);
+    }
     int iarg = 2;
 
     while (iarg < narg) {

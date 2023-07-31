@@ -67,7 +67,7 @@ void Change::change_body(int narg, char** arg)
             double mass = input->numeric(FLERR, arg[iarg + 1]);
             muse->body[id]->set_Mass(mass);
             iarg = iarg + 2;
-        }
+}
         else if (strcmp(arg[iarg], "pos") == 0) {
             if (narg <= iarg + 3) error->all(FLERR, "Illegal change body command");
             double posx = input->numeric(FLERR, arg[iarg + 1]);
