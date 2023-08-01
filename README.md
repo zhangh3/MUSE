@@ -40,4 +40,4 @@ MUSE 包含以下文件与文件夹:
 ```
 
 ## 关于作者 
-MUSE最初由张贺开发，若有疑问请联系zhanghecalt@163.com。
+MUSE最初由张贺开发，若有疑问或建议请联系zhanghecalt@163.com。
