@@ -23,8 +23,8 @@ MUSE 包含以下文件与文件夹:
 │ MUSE.sln          visual studio 工程文件  
 │ README.md         本文件       
 ├─example           计算示例
-│  └─script
-│      in.in       
+│  ├─script
+│  └─main    
 └─src               源文件
     │ *.cpp
     │ *.h
