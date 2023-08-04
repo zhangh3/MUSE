@@ -1959,6 +1959,8 @@ int Variable::special_function(char *word, char *contents, Tree **tree,
    
     int index,nvec,nstride;
 
+    //FIXME::nvec”Îcomput”–πÿ£°£°£°
+
 
 
     value = 0.0;

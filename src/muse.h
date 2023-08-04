@@ -21,8 +21,10 @@ namespace MUSE_NS{
 		class Error *error;            // error handling
 		class Ensemble *ensemble;      // ensemble of simulation
 		class Input* input;            // input script processing
-		                               // ptrs to top-level MUSE-specific classes
+		class Timer* timer;            // CPU timing info
 
+
+		// ptrs to top-level MUSE-specific classes
 		class System **system;         // list of ptrs to multibody systems
 		class Body **body;             // list of ptrs to the bodies 
 		class Joint **joint;           // list of ptrs to the joints 
