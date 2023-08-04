@@ -23,17 +23,20 @@ using namespace std;
 int main(int argc, char **argv){
 
 	MPI_Init(&argc,&argv);
+
+
 	
 	MUSE *muse = new MUSE(argc,argv,MPI_COMM_WORLD);
 
+	ofstream out;
+	out.open("./res.txt", ios::trunc);
+	out << "MUSE OUTPUT:" << endl;
+	out.close();
+
 	muse->input->file();
 
-	ofstream out;
-	out.open("./res.txt", ios::out);
-	for (int i = 0; i < muse->system[0]->xlog.size();i++)
-	{
-		out << muse->system[0]->xlog[i].transpose() << endl;
-	}
+
+
 	delete muse;
 	MPI_Finalize();
 }

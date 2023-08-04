@@ -59,54 +59,20 @@ namespace MUSE_NS {
         void reallocate(char*&, int&, int);  // reallocate a char string
         int execute_command();                 // execute a single command
 
-        void clear();                // input script commands
+        //void clear();                // input script commands
         void echo();
         void ifthenelse();
         void include();
         void jump();
         void label();
-        void log();
+        //void log();
         void next_command();
-        void partition();
         void print();
         void quit();
         void shell();
         void variable_command();
 
-        // SPARTA commands
-
-        void boundary();
-        void bound_modify();
-        void collide_command();
-        void collide_modify();
-        void compute();
-        void dimension();
-        void dump();
-        void dump_modify();
-        void fix();
-        void global();
-        void group();
-        void mixture();
-        void package();
-        void react_command();
-        void react_modify();
-        void region();
-        void reset_timestep();
-        void restart();
-        void seed();
-        void species();
-        void stats();
-        void stats_modify();
-        void stats_style();
-        void surf_collide();
-        void surf_modify();
-        void surf_react();
-        void timestep();
-        void uncompute();
-        void undump();
-        void unfix();
-        void units();
-        void weight();
+        // MUSE commands
     };
 
 }

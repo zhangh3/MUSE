@@ -19,11 +19,7 @@
 #include "MUSEsystem.h"
 #include "joint.h"
 #include "body.h"
-
-
-
-
-
+#include "timer.h"
 
 
 using namespace MUSE_NS;
@@ -49,6 +45,26 @@ MUSE::MUSE(int narg, char **arg, MPI_Comm communicator)
   memory = new Memory(this);
   error = new Error(this);
   ensemble = new Ensemble(this,communicator);
+  ///////
+ 
+  timer = new Timer(this);
+
+
+  if (me == 0) {
+	  if (screen) fprintf(screen, "================================================\n");
+	  if (screen) fprintf(screen, "   __       __  __    __   ______   ________  \n");
+	  if (screen) fprintf(screen, "  |  \\     /  \\|  \\  |  \\ /      \\ |        \\ \n");
+	  if (screen) fprintf(screen, "  | ::\\   /  ::| ::  | ::|  ::::::\\| :::::::: \n");
+	  if (screen) fprintf(screen, "  | :::\\ /  :::| ::  | ::| ::___\\::| ::__     \n");
+	  if (screen) fprintf(screen, "  | ::::\\  ::::| ::  | :: \\::    \\ | ::  \\    \n");
+	  if (screen) fprintf(screen, "  | ::\\:: :: ::| ::  | :: _\\::::::\\| :::::    \n");
+	  if (screen) fprintf(screen, "  | :: \\:::| ::| ::__/ ::|  \\__| ::| ::_____  \n");
+	  if (screen) fprintf(screen, "  | ::  \\: | :: \\::    :: \\::    ::| ::     \\ \n");
+	  if (screen) fprintf(screen, "   \\::      \\::  \\::::::   \\::::::  \\:::::::: \n");
+	  if (screen) fprintf(screen, "\n================================================\n");
+	  if (screen) fprintf(screen, "VERSION: (%s)\n\n", MUSE_VERSION);
+	  if (logfile) fprintf(logfile, "VERSION: (%s)\n\n", MUSE_VERSION);
+  }
 
   int iarg = 1;
   while (iarg < narg) {
@@ -61,7 +77,6 @@ MUSE::MUSE(int narg, char **arg, MPI_Comm communicator)
 	  }
 	  else error->all(FLERR, "Invalid command-line argument");
   }
-
 
   if (me == 0) {
 	  if (inflag == 0) infile = stdin;
@@ -78,24 +93,6 @@ MUSE::MUSE(int narg, char **arg, MPI_Comm communicator)
 
 
 
-  if (me==0)
-  {
-
-	  if (screen) fprintf(screen, "================================================\n");
-	  if (screen) fprintf(screen, "   __       __  __    __   ______   ________  \n");
-	  if (screen) fprintf(screen, "  |  \\     /  \\|  \\  |  \\ /      \\ |        \\ \n");
-	  if (screen) fprintf(screen, "  | ::\\   /  ::| ::  | ::|  ::::::\\| :::::::: \n");
-	  if (screen) fprintf(screen, "  | :::\\ /  :::| ::  | ::| ::___\\::| ::__     \n");
-	  if (screen) fprintf(screen, "  | ::::\\  ::::| ::  | :: \\::    \\ | ::  \\    \n");
-	  if (screen) fprintf(screen, "  | ::\\:: :: ::| ::  | :: _\\::::::\\| :::::    \n");
-	  if (screen) fprintf(screen, "  | :: \\:::| ::| ::__/ ::|  \\__| ::| ::_____  \n");
-	  if (screen) fprintf(screen, "  | ::  \\: | :: \\::    :: \\::    ::| ::     \\ \n");
-	  if (screen) fprintf(screen, "   \\::      \\::  \\::::::   \\::::::  \\:::::::: \n");
-	  if (screen) fprintf(screen, "\n================================================\n");
-
-	  if(screen) fprintf(screen," MUSE (%s)\n",MUSE_VERSION);
-	  if(logfile) fprintf(logfile," MUSE (%s)\n",MUSE_VERSION);
-  }
 }
 MUSE::~MUSE()
 {
@@ -103,6 +100,7 @@ MUSE::~MUSE()
 	delete error;
 	delete memory;
 	delete input;
+	delete timer;
 
 	for (int i = 0; i < nSystems; i++) delete system[i];
 	memory->sfree(system);

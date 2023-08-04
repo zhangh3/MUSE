@@ -24,7 +24,6 @@ using namespace MUSE_NS;
 
 /* ---------------------------------------------------------------------- */
 
-
 Output::Output(MUSE* muse) : Pointers(muse)
 {
     //stats = new Stats(muse);

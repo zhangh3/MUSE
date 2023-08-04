@@ -18,6 +18,7 @@
 
 
 #include <iostream>
+#include <fstream>
 #include<ctime>
 #include <iomanip>
 using namespace MUSE_NS;
@@ -184,7 +185,13 @@ void Run::command(int narg, char **arg)
     end = clock();
     std::cout << "run time: " << std::fixed << std::setprecision(2) << 1000 * (double)(end - start) / CLOCKS_PER_SEC << "ms" << std::endl;
 
-   
+    std::ofstream fout;
+    fout.open("./res.txt", std::ios::app);
+    for (int i = 1; i < muse->system[sysid]->xlog.size();i++)
+    {
+        fout << muse->system[sysid]->xlog[i].transpose() << std::endl;
+    }
+    fout.close();
 
   // perform multiple runs optionally interleaved with invocation command(s)
   // use start/stop to set begin/end step
@@ -222,8 +229,13 @@ void Run::command(int narg, char **arg)
       end = clock();
       std::cout << "run time: " << std::fixed << std::setprecision(2) << 1000 * (double)(end - start) / CLOCKS_PER_SEC << "ms" << std::endl;
 
-
-
+      std::ofstream fout;
+      fout.open("./res.txt", std::ios::app);
+      for (int i = 1; i < muse->system[sysid]->xlog.size();i++)
+      {
+          fout << muse->system[sysid]->xlog[i].transpose() << std::endl;
+      }
+      fout.close();
  
 
       // wrap command invocation with clearstep/addstep

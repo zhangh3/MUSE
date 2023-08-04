@@ -37,6 +37,7 @@ class Pointers {
     error(ptr->error),
 	world(ptr->world),
     input(ptr->input),
+    timer(ptr->timer),
     infile(ptr->infile),
     screen(ptr->screen),
     logfile(ptr->logfile) {}
@@ -49,6 +50,7 @@ class Pointers {
   Error *&error;
   Ensemble *&ensemble;
   Input *&input;
+  Timer *&timer;
 
   MPI_Comm &world;
   FILE *&infile;
