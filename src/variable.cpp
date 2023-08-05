@@ -1969,7 +1969,7 @@ int Variable::special_function(char *word, char *contents, Tree **tree,
     if (method == XMAX) value = -BIG;
 
 
-    if (method == AVE) value /= nvec;
+   // if (method == AVE) value /= nvec;//FIXME
 
     if (method == SLOPE) {
       double numerator = sxy - sx*sy;

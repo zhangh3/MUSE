@@ -37,17 +37,16 @@ void Joint::constrainteq_fix()
 	crsom1 = MathExtra::crs(body[0]->DCM * body[0]->omega);
 	crsom2 = MathExtra::crs(body[1]->DCM * body[1]->omega);
 
-	A1 << Matrix3d::Identity(), crsp1_I* T1_I,
-		  Matrix3d::Zero()    , T1_I;
-	A2 <<-Matrix3d::Identity(), crsp2_I* T2_I,
-		  Matrix3d::Zero()    ,-T2_I;
-
 	brot1 = body[0]->DCM * body[0]->Td * body[0]->quatd;
 	brot2 = body[1]->DCM * body[1]->Td * body[1]->quatd;
 
 	b_part1 = -crsom1 * crsom1 * point1_I + crsp1_I * brot1;
 	b_part2 = -crsom2 * crsom2 * point2_I + crsp2_I * brot2;
 
+	A1 << Matrix3d::Identity(), crsp1_I* T1_I,
+		Matrix3d::Zero(), T1_I;
+	A2 << -Matrix3d::Identity(), crsp2_I* T2_I,
+		Matrix3d::Zero(), -T2_I;
 	b << b_part1 - b_part2,
 		brot2 - brot1;
 }

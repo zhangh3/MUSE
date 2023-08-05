@@ -80,6 +80,13 @@ void Joint::set_type(int newtype)
 		A2.resize(6, 7);
 		b.resize(6);
 		break;
+	case HINGE:
+		type = newtype;
+		consptr = &Joint::constrainteq_hinge;
+		A1.resize(6, 7);
+		A2.resize(6, 7);
+		b.resize(6);
+		break;
 	default:
 		error->all(FLERR, "Undefined joint type!");
 		break;
@@ -117,20 +124,6 @@ void Joint::getconstrainteq()
 {
 
 	(this->*consptr)();
-/* FIXME
-	switch (type)
-	{
-	case SPHERE:
-		constrainteq_sphere();
-		break;
-	case GROUND:
-		constrainteq_ground();
-		break;
-	default:
-		error->all(FLERR, "Undefined joint type!");
-		break;
-	}
-*/
 }
 
 int MUSE_NS::Joint::get_type()
