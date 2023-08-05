@@ -98,12 +98,12 @@ void Body::set_Inertia(double Ixx,double Iyy,double Izz,double Ixy,double Ixz,do
 
 void Body::refresh()
 {
-	quat.normalize();// 归一化quatd，应该返回x
+	quat.normalize();// FIXME:归一化quat，应该返回x
 	T  << 2 * ( quat(3) * Eigen::Matrix3d::Identity() - MathExtra::crs( quat.head(3))), -2 *  quat.head(3);
 	DCM = (quat(3) * quat(3) - quat.head(3).transpose() * quat.head(3)) * Eigen::Matrix3d::Identity() 
 		 + 2 * quat.head(3) * quat.head(3).transpose() + 2 * quat(3) * MathExtra::crs(quat.head(3));
 	omega = T * quatd;
-	quatd = 0.25 * T.transpose() * omega; // 归一化quatd，应该返回xd
+	quatd = 0.25 * T.transpose() * omega; // FIXME:归一化quatd，应该返回xd
 	Td << 2 * (quatd(3) * Eigen::Matrix3d::Identity() - MathExtra::crs(quatd.head(3))), -2 * quatd.head(3);
 	inertia4 = T.transpose() * inertia * T;
 }

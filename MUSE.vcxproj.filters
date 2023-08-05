@@ -78,6 +78,9 @@
     <ClCompile Include="src\timer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\joint_fix.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\STUBS\mpi.h">
@@ -89,7 +92,7 @@
     <ClInclude Include="src\ensemble.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\enums.h">
+    <ClInclude Include="src\joint_enums.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\error.h">

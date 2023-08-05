@@ -140,6 +140,7 @@
     <ClCompile Include="src\error.cpp" />
     <ClCompile Include="src\input.cpp" />
     <ClCompile Include="src\joint.cpp" />
+    <ClCompile Include="src\joint_fix.cpp" />
     <ClCompile Include="src\joint_ground.cpp" />
     <ClCompile Include="src\joint_sphere.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -159,7 +160,7 @@
     <ClInclude Include="src\change.h" />
     <ClInclude Include="src\create.h" />
     <ClInclude Include="src\ensemble.h" />
-    <ClInclude Include="src\enums.h" />
+    <ClInclude Include="src\joint_enums.h" />
     <ClInclude Include="src\error.h" />
     <ClInclude Include="src\input.h" />
     <ClInclude Include="src\joint.h" />

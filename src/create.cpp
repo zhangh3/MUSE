@@ -17,7 +17,7 @@
 #include "body.h"
 #include "MUSEsystem.h"
 #include "input.h"
-#include "enums.h"
+#include "joint_enums.h"
 
 #include <iostream>
 

@@ -14,7 +14,7 @@
 #include "joint.h"
 #include "memory.h"
 #include "error.h"
-#include "enums.h"
+#include "joint_enums.h"
 
 //////test
 #include <iostream>
@@ -55,7 +55,6 @@ System::~System()
 	delete[] name;
 }
 
-
 void System::set_Name(char* newname)
 {
 	int n = strlen(newname) + 1;
@@ -71,7 +70,7 @@ void System::solve(int nsteps)
 	int ibody, ijoint;
 
 	for (ibody = 0; ibody < nBodies; ibody++) muse->body[ibody]->refresh();
-	for (ijoint = 0; ijoint < nJoints; ijoint++) muse->joint[ijoint]->runconstrainteq();
+	for (ijoint = 0; ijoint < nJoints; ijoint++) muse->joint[ijoint]->getconstrainteq();
 
 	
 	
@@ -105,6 +104,7 @@ void System::solve(int nsteps)
 	}
 	
 }
+
 void System::calxdd()
 {
 	using namespace Eigen;
@@ -139,6 +139,7 @@ void System::calxdd()
 
 	xdd = svdMbar.solve(longb);
 }
+
 void System::update_euler()
 {
 	int ibody, ijoint;
@@ -207,7 +208,7 @@ void System::x2body()
 		ibegin += 4;
 	}
 	for (ibody = 0; ibody < nBodies; ibody++) muse->body[ibody]->refresh();
-	for (ijoint = 0; ijoint < nJoints; ijoint++) muse->joint[ijoint]->runconstrainteq();
+	for (ijoint = 0; ijoint < nJoints; ijoint++) muse->joint[ijoint]->getconstrainteq();
 }
 
 int System::add_Body(Body *bodynow)
@@ -321,7 +322,6 @@ int MUSE_NS::System::remove_Joint(Joint *jointnow)
 	return ijoint;
 }
 
-
 void System::setup()
 {
 	//std::cout << "setup!!!" << std::endl;
@@ -347,6 +347,7 @@ void System::makeBigF()
 	for (ibody = 0; ibody < nBodies; ibody++) 
 		F.segment(ibody * 7, 3) << body[ibody]->mass * ga;
 }
+
 void System::makeBigM()
 {
 	int ibody,ibegin,i,j;

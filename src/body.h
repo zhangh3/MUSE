@@ -23,24 +23,25 @@ namespace MUSE_NS {
 class Body : protected Pointers {
 public:
 
-    char *name;
+    char *name;                        //body name
 
-	Eigen::Vector3d pos;
-	Eigen::Vector3d vel;
-	Eigen::Vector4d quat;
+	Eigen::Vector3d pos;               //centroid position in inertial frame
+	Eigen::Vector3d vel;               //centroid velocity in inertial frame
+	Eigen::Vector4d quat;              //pose quaternion
 
 /* omega is calculated according to quatd
    the quatd must be modified when setting omega */
 
-	Eigen::Vector4d quatd; 
-	Eigen::Vector3d omega;
+	Eigen::Vector4d quatd;             //time derivative quat
+	Eigen::Vector3d omega;             //angular velocity in body frame
 	double mass;
-	Eigen::Matrix3d inertia;
+	Eigen::Matrix3d inertia;           //inertia in body frame
 
 
-	Eigen::Matrix<double, 3, 4> T,Td;
-	Eigen::Matrix3d DCM;
-	Eigen::Matrix4d inertia4;
+	Eigen::Matrix<double, 3, 4> T,Td;  //T: transformation matrix from quatd to omega
+	                                   //Td: time derivative of T
+	Eigen::Matrix3d DCM;               //transformation matrix from body frame to inertial frame
+	Eigen::Matrix4d inertia4;          //inertia in quaternion form
 
 	System* mySystem;
 	int IDinSystem;

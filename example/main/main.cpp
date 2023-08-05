@@ -16,7 +16,7 @@
 //////////////////
 #include "body.h"
 #include "joint.h"
-#include "enums.h"
+#include "joint_enums.h"
 #include "MUSEsystem.h"
 #include "math_extra.h"
 #include "memory.h"

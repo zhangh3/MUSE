@@ -9,7 +9,7 @@
 ------------------------------------------------------------------------- */
 
 #include "joint.h"
-#include "enums.h"
+#include "joint_enums.h"
 #include "error.h"
 
 using namespace MUSE_NS;
@@ -47,6 +47,7 @@ void Joint::set_type_by_name(char* type_name)
 {
 	if (strcmp(type_name, "sphere") == 0) this->set_type(SPHERE);
 	else if (strcmp(type_name, "ground") == 0)  this->set_type(GROUND);
+	else if (strcmp(type_name, "fix") == 0)  this->set_type(FIX);
 	else {
 		char str[128];
 		sprintf(str, "Illegal joint type: %s", type_name);
@@ -71,6 +72,13 @@ void Joint::set_type(int newtype)
 		A1.resize(7, 7);
 		A2.resize(0, 0);
 		b.resize(7);
+		break;
+	case FIX:
+		type = newtype;
+		consptr = &Joint::constrainteq_fix;
+		A1.resize(6, 7);
+		A2.resize(6, 7);
+		b.resize(6);
 		break;
 	default:
 		error->all(FLERR, "Undefined joint type!");
@@ -105,7 +113,7 @@ void MUSE_NS::Joint::set_axis(double a1, double a2, double a3, int i)
 }
 
 
-void Joint::runconstrainteq()
+void Joint::getconstrainteq()
 {
 
 	(this->*consptr)();
