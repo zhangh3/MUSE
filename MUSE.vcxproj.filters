@@ -81,6 +81,9 @@
     <ClCompile Include="src\joint_fix.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\joint_hinge.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\STUBS\mpi.h">
