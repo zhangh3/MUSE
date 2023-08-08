@@ -39,6 +39,35 @@ MUSE 包含以下文件与文件夹:
         mpi.h
 ```
 
+## MUSE 编译方式
+### WINDOWS   
+* 使用Visual Studio打开MUSE.sln，执行编译   
+* 使用Cygwin64：
+```
+cd src
+make serial
+```
+### LINUX
+* 串行版：
+```
+cd src
+make serial
+```
+* 并行版(尚不完善)：
+```
+cd src
+make mpi
+```
+
+## MUSE 运行方式
+### 基于脚本运行   
+* MUSE.exe < in.script   
+* MUSE.exe -i in.script   
+* 运行MUSE.exe，在cmd窗口中输入脚本指令运行
+   
+### 修改main函数运行   
+* 替换src/文件夹中main.cpp，编译后运行
+
 ## 关于作者 
 MUSE最初由张贺开发，若有疑问或建议请联系zhanghecalt@163.com。
 
