@@ -175,8 +175,10 @@ void Run::command(int narg, char **arg)
     if (stopflag) muse->system[sysid]->endstep = stop;
     else muse->system[sysid]->endstep = muse->system[sysid]->laststep;
 
-    if (preflag || muse->system[sysid]->first_update == 0) {
+    if (preflag || muse->system[sysid]->first_run == 0) {
     //第一次运行需要设置的东西
+        //muse->system[sysid]->first_run = 1;//FIXME
+        muse->init();
         muse->system[sysid]->setup();
     } 
 
@@ -220,6 +222,8 @@ void Run::command(int narg, char **arg)
       else muse->system[sysid]->endstep = muse->system[sysid]->laststep;
 
       if (preflag || iter == 0) {
+          //muse->system[sysid]->first_run = 1;//FIXME
+          muse->init();
           muse->system[sysid]->setup();
       } 
 

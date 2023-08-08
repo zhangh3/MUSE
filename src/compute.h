@@ -18,7 +18,9 @@ namespace MUSE_NS {
 
 class Compute : protected Pointers {
  public:
-  char *id,*style;
+
+  int sysid;
+  char *name,*style;
 
   double scalar;            // computed global scalar
   double *vector;           // computed global vector
@@ -39,13 +41,13 @@ class Compute : protected Pointers {
   int timeflag;       // 1 if Compute stores list of timesteps it's called on
   int ntime;          // # of entries in time list
   int maxtime;        // max # of entries time list can hold
-  int *tlist;      // list of timesteps the Compute is called on
+  int *tlist;         // list of timesteps the Compute is called on
 
-  int invoked_flag;       // non-zero if invoked or accessed this step, 0 if not
-  int invoked_scalar;  // last timestep on which compute_scalar() was invoked
-  int invoked_vector;       // ditto for compute_vector()
-  int invoked_array;        // ditto for compute_array()
-  int invoked_per_body; // ditto for compute_per_body()
+  int invoked_flag;        // non-zero if invoked or accessed this step, 0 if not
+  int invoked_scalar;      // last timestep on which compute_scalar() was invoked
+  int invoked_vector;      // ditto for compute_vector()
+  int invoked_array;       // ditto for compute_array()
+  int invoked_per_body;    // ditto for compute_per_body()
 
   Compute(class MUSE *, int, char **);
   Compute(class MUSE* muse) : Pointers(muse) {} 

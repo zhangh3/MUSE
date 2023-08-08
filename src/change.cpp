@@ -217,7 +217,7 @@ void Change::change_system(int narg, char** arg)
 
     for (id = 0; id < muse->nSystems; id++)
         if (strcmp(arg[0], muse->system[id]->name) == 0) break;
-    if (id == muse->nJoints)
+    if (id == muse->nSystems)
     {
         char str[128];
         sprintf(str, "Cannot find system with name: %s", arg[0]);

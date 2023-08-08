@@ -21,6 +21,10 @@
 #include "joint.h"
 #include "body.h"
 #include "timer.h"
+#include "modify.h"
+
+
+#define DELTA 5
 
 
 using namespace MUSE_NS;
@@ -47,7 +51,7 @@ MUSE::MUSE(int narg, char **arg, MPI_Comm communicator)
   error = new Error(this);
   ensemble = new Ensemble(this,communicator);
   ///////
- 
+  modify = new Modify(this);
   timer = new Timer(this);
 
 
@@ -95,6 +99,7 @@ MUSE::MUSE(int narg, char **arg, MPI_Comm communicator)
 
 
 }
+
 MUSE::~MUSE()
 {
 	delete ensemble;
@@ -102,6 +107,9 @@ MUSE::~MUSE()
 	delete memory;
 	delete input;
 	delete timer;
+	delete modify;
+	//delete comm;
+	//delete output;
 
 	for (int i = 0; i < nSystems; i++) delete system[i];
 	memory->sfree(system);
@@ -111,7 +119,21 @@ MUSE::~MUSE()
 
 	for (int i = 0; i < nJoints; i++) delete joint[i];
 	memory->sfree(joint);
+
+	if (me == 0) {
+		if (screen && screen != stdout) fclose(screen);
+		if (infile != stdin) fclose(infile);
+		if (logfile) fclose(logfile);
+	}
 	
+}
+
+void MUSE_NS::MUSE::init()
+{
+	//comm->init();//FIXME
+	modify->init();               
+	//output->init();//FIXME
+	timer->init();
 }
 
 int MUSE::add_Body(char *name)

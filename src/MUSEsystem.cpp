@@ -23,6 +23,7 @@
 /////
 
 #define EPS 1E-16
+#define DELTA 5
 
 using namespace MUSE_NS;
 
@@ -40,7 +41,7 @@ System::System(MUSE *muse) : Pointers(muse)
 	ntimestep = 0;
 	firststep = laststep = 0;
 	beginstep = endstep = 0;
-	first_update = 0;
+	first_run = 0;
 
 	ga << 0, -9.8, 0;
 
@@ -67,7 +68,7 @@ void System::set_Name(char* newname)
 void System::solve(int nsteps)
 {
 	
-	first_update = 1; 
+	first_run = 1; 
 	int ibody, ijoint;
 
 	for (ibody = 0; ibody < nBodies; ibody++) muse->body[ibody]->refresh();

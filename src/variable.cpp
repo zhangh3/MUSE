@@ -1975,7 +1975,7 @@ int Variable::special_function(char *word, char *contents, Tree **tree,
     if (method == SLOPE) {
       double numerator = sxy - sx*sy;
       double denominator = sxx - sx*sx;
-      if (denominator != 0.0) value = numerator/denominator / nvec;
+      if (denominator != 0.0) value = numerator/denominator / nvec;//FIXME
       else value = BIG;
     }
 

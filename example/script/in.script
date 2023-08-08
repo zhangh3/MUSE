@@ -20,8 +20,8 @@ run s1 50
 #将刚体b1的质量改成2
 change body b1 mass 2
 
-label	    loop #创建一个名为loop的标记，用于循环
 variable    a loop 5  #创建一个变量a，取值1-5
+label	    loop #创建一个名为loop的标记，用于循环
 print	    "A = $a" #输出a的值
 if	    "$a > 2" then "jump in.script break" #若a>2,跳转到标记break
 #求解50时间步
