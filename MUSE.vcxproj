@@ -147,6 +147,7 @@
     <ClCompile Include="src\joint_sphere.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\memory.cpp" />
+    <ClCompile Include="src\modify.cpp" />
     <ClCompile Include="src\muse.cpp" />
     <ClCompile Include="src\MUSEsystem.cpp" />
     <ClCompile Include="src\output.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="src\joint.h" />
     <ClInclude Include="src\math_extra.h" />
     <ClInclude Include="src\memory.h" />
+    <ClInclude Include="src\modify.h" />
     <ClInclude Include="src\muse.h" />
     <ClInclude Include="src\MUSEsystem.h" />
     <ClInclude Include="src\output.h" />
@@ -179,6 +181,7 @@
     <ClInclude Include="src\STUBS\mpi.h" />
     <ClInclude Include="src\style_command.h" />
     <ClInclude Include="src\MUSEunistd.h" />
+    <ClInclude Include="src\style_compute.h" />
     <ClInclude Include="src\timer.h" />
     <ClInclude Include="src\variable.h" />
     <ClInclude Include="src\version.h" />

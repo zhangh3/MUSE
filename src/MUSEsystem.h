@@ -18,8 +18,6 @@
 
 namespace MUSE_NS {
 
-#define DELTA 5
-
 class System : protected Pointers {
 public:
 
@@ -48,7 +46,7 @@ public:
 	int laststep;
 	int beginstep;
 	int endstep;
-	int first_update;
+	int first_run;
 
 	char* name;
 

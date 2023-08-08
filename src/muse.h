@@ -23,6 +23,7 @@ namespace MUSE_NS{
 		class Ensemble *ensemble;      // ensemble of simulation
 		class Input* input;            // input script processing
 		class Timer* timer;            // CPU timing info
+		class Modify* modify;          // computes
 
 
 		// ptrs to top-level MUSE-specific classes
@@ -48,6 +49,8 @@ namespace MUSE_NS{
 
 		MUSE(int, char **, MPI_Comm);
 		~MUSE();
+
+		void init();
 
 		int add_Body(char *);
 		int add_Joint(char*);

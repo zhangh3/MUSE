@@ -16,12 +16,13 @@
 #include "input.h"
 #include "error.h"
 #include "MUSEsystem.h"
-
+#include "timer.h"
+#include "modify.h"
 
 #include <iostream>
 #include <fstream>
-#include<ctime>
 #include <iomanip>
+
 using namespace MUSE_NS;
 
 /* ---------------------------------------------------------------------- */
@@ -175,16 +176,23 @@ void Run::command(int narg, char **arg)
     if (stopflag) muse->system[sysid]->endstep = stop;
     else muse->system[sysid]->endstep = muse->system[sysid]->laststep;
 
-    if (preflag || muse->system[sysid]->first_update == 0) {
+    if (preflag || muse->system[sysid]->first_run == 0) {
     //第一次运行需要设置的东西
+        //muse->system[sysid]->first_run = 1;//FIXME
+        muse->init();
         muse->system[sysid]->setup();
     } 
 
-    clock_t start, end;
-    start = clock();
+
+
+    timer->init();
+    timer->barrier_start(TIME_LOOP);
     muse->system[sysid]->solve(nsteps);
-    end = clock();
-    std::cout << "run time: " << std::fixed << std::setprecision(2) << 1000 * (double)(end - start) / CLOCKS_PER_SEC << "ms" << std::endl;
+    timer->barrier_stop(TIME_LOOP);
+    std::cout << "Iterated " << nsteps << " steps and ";
+    std::cout << "took " << std::fixed << std::setprecision(2) << 1000 * timer->array[TIME_LOOP] << " milliseconds" << std::endl;
+
+
 
     std::ofstream fout;
     fout.open("./res.txt", std::ios::app);
@@ -220,15 +228,19 @@ void Run::command(int narg, char **arg)
       else muse->system[sysid]->endstep = muse->system[sysid]->laststep;
 
       if (preflag || iter == 0) {
+          //muse->system[sysid]->first_run = 1;//FIXME
+          muse->init();
           muse->system[sysid]->setup();
       } 
 
-
-      clock_t start, end;
-      start = clock();
+      timer->init();
+      timer->barrier_start(TIME_LOOP);
       muse->system[sysid]->solve(nsteps);
-      end = clock();
-      std::cout << "run time: " << std::fixed << std::setprecision(2) << 1000 * (double)(end - start) / CLOCKS_PER_SEC << "ms" << std::endl;
+      timer->barrier_stop(TIME_LOOP);
+      std::cout << "Iterated "<< nsteps <<" steps and ";
+      std::cout << "took " << std::fixed << std::setprecision(2) << 1000 * timer->array[TIME_LOOP] << " milliseconds" << std::endl;
+
+
 
       std::ofstream fout;
       fout.open("./res.txt", std::ios::app);
@@ -243,7 +255,10 @@ void Run::command(int narg, char **arg)
       // since a command may invoke computes via variables
 
       if (ncommands) {
-            error->warning(FLERR, "ncommands apear!!"); //zhangh3:FIXME
+            //error->warning(FLERR, "ncommands apear!!"); //zhangh3:FIXME
+            modify->clearstep_compute();
+            for (int i = 0; i < ncommands; i++) input->one(commands[i]);
+            modify->addstep_compute(muse->system[sysid]->ntimestep + nevery);
       }
 
       nleft -= nsteps;

@@ -15,6 +15,7 @@
 #include "compute.h"
 #include "memory.h"
 #include "error.h"
+#include "MUSEsystem.h"
 
 using namespace MUSE_NS;
 
@@ -24,23 +25,33 @@ using namespace MUSE_NS;
 
 Compute::Compute(MUSE *muse, int narg, char **arg) : Pointers(muse)
 {
-  if (narg < 2) error->all(FLERR,"Illegal compute command");
+  if (narg < 3) error->all(FLERR,"Illegal compute command");
 
   // compute ID and style
   // ID must be all alphanumeric chars or underscores
 
   int n = strlen(arg[0]) + 1;
-  id = new char[n];
-  strcpy(id,arg[0]);
+  name = new char[n];
+  strcpy(name,arg[0]);
 
   for (int i = 0; i < n-1; i++)
-    if (!isalnum(id[i]) && id[i] != '_')
+    if (!isalnum(name[i]) && name[i] != '_')
       error->all(FLERR,
 		 "Compute ID must be alphanumeric or underscore characters");
 
-  n = strlen(arg[1]) + 1;
+  for (sysid = 0; sysid < muse->nSystems; sysid++)
+      if (strcmp(arg[1], muse->system[sysid]->name) == 0) break;
+  if (sysid == muse->nSystems)
+  {
+      char str[128];
+      sprintf(str, "Cannot find system with name: %s", arg[1]);
+      error->all(FLERR, str);
+  }
+
+
+  n = strlen(arg[2]) + 1;
   style = new char[n];
-  strcpy(style,arg[1]);
+  strcpy(style,arg[2]);
 
   // set child class defaults
 
@@ -64,7 +75,7 @@ Compute::~Compute()
 {
   if (copy || copymode) return;
 
-  delete [] id;
+  delete [] name;
   delete [] style;
   memory->destroy(tlist);
 }
