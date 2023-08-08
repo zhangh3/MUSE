@@ -84,6 +84,9 @@
     <ClCompile Include="src\joint_hinge.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\compute.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\STUBS\mpi.h">
@@ -153,6 +156,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\timer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\compute.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
