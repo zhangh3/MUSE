@@ -89,6 +89,7 @@ ComputeBody::~ComputeBody()
 
   delete [] value;
   delete [] unique;
+
   delete [] nmap;
   memory->destroy(map);
   memory->destroy(tally);
