@@ -31,8 +31,9 @@ namespace MUSE_NS {
         char* one(const char*);       // process a single command
         void substitute(char*&, char*&, int&, int&, int);
         // substitute for variables in a string
-        int expand_args(int, char**, int, char**&);  // expand args due to wildcard
-
+        
+        int expand_args(int, char**, int, char**&);  // expand args due to wildcard//FIXME:增加expand_args相关内容
+        
         double numeric(const char*, int, const char*);    // arg checking
         int inumeric(const char*, int, char*);
         int bnumeric(const char*, int, char*);
@@ -74,6 +75,7 @@ namespace MUSE_NS {
         void variable_command();
 
         // MUSE commands
+        void compute();
     };
 
 }

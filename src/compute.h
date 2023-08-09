@@ -57,7 +57,6 @@ class Compute : protected Pointers {
   virtual double compute_scalar() {return 0.0;}
   virtual void compute_vector() {}
   virtual void compute_array() {}
-  virtual void compute_per_body() {}
 
   virtual void clear() {}
 

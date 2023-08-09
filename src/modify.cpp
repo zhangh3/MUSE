@@ -121,8 +121,8 @@ void Modify::add_compute(int narg, char** arg)
 
 #define COMPUTE_CLASS
 #define ComputeStyle(key,Class) \
-else if (strcmp(arg[1],#key) == 0) \
-    compute[ncompute] = new Class(sparta,narg,arg);
+else if (strcmp(arg[2],#key) == 0) \
+    compute[ncompute] = new Class(muse,narg,arg);
 #include "style_compute.h"
 #undef ComputeStyle
 #undef COMPUTE_CLASS

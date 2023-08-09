@@ -51,7 +51,7 @@ Compute::Compute(MUSE *muse, int narg, char **arg) : Pointers(muse)
 
   n = strlen(arg[2]) + 1;
   style = new char[n];
-  strcpy(style,arg[2]);
+  strcpy(style, arg[2]);
 
   // set child class defaults
 

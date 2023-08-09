@@ -22,6 +22,8 @@
 #include "memory.h"
 #include "style_command.h"
 #include "variable.h"
+#include "modify.h"
+#include "compute.h"
 
 using namespace MUSE_NS;
 
@@ -485,6 +487,7 @@ int Input::execute_command()
     else if (!strcmp(command, "if")) ifthenelse();
     else if (!strcmp(command, "next")) next_command();
     else if (!strcmp(command, "jump")) jump();
+    else if (!strcmp(command, "compute")) compute();
 
     else flag = 0;
 
@@ -870,6 +873,12 @@ void Input::variable_command()
     variable->set(narg, arg);
 }
 
+
+void Input::compute()
+{
+    modify->add_compute(narg, arg);
+}
+
 /* ----------------------------------------------------------------------
    read a floating point value from a string
    generate an error if not a legitimate floating point value
@@ -981,5 +990,6 @@ int Input::count_words(char *line)
   memory->sfree(copy);
   return n;
 }
+
 
 
