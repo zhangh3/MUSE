@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -136,6 +136,7 @@
     <ClCompile Include="src\body.cpp" />
     <ClCompile Include="src\change.cpp" />
     <ClCompile Include="src\compute.cpp" />
+    <ClCompile Include="src\compute_body.cpp" />
     <ClCompile Include="src\create.cpp" />
     <ClCompile Include="src\ensemble.cpp" />
     <ClCompile Include="src\error.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="src\body.h" />
     <ClInclude Include="src\change.h" />
     <ClInclude Include="src\compute.h" />
+    <ClInclude Include="src\compute_body.h" />
     <ClInclude Include="src\create.h" />
     <ClInclude Include="src\ensemble.h" />
     <ClInclude Include="src\joint_enums.h" />
