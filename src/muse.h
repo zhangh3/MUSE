@@ -24,13 +24,13 @@ namespace MUSE_NS{
 		class Input* input;            // input script processing
 		class Timer* timer;            // CPU timing info
 		class Modify* modify;          // computes
-
+		class Output* output;          // stats/result/restart
+		class System* system;         // list of ptrs to multibody systems
 
 		// ptrs to top-level MUSE-specific classes
-		class System **system;         // list of ptrs to multibody systems
+
 		class Body **body;             // list of ptrs to the bodies 
 		class Joint **joint;           // list of ptrs to the joints 
-
 		
 		MPI_Comm world;
 		FILE *screen;
@@ -41,7 +41,6 @@ namespace MUSE_NS{
 		
 		int nBodies;
 		int nJoints;
-		int nSystems;
 
 
 
@@ -54,13 +53,11 @@ namespace MUSE_NS{
 
 		int add_Body(char *);
 		int add_Joint(char*);
-		int add_System(char*);
 
 	private:
 
 		int maxBodies;
 		int maxJoints;
-		int maxSystems;
 
 	};
 

@@ -39,6 +39,7 @@ class Pointers {
 	world(ptr->world),
     input(ptr->input),
     timer(ptr->timer),
+    output(ptr->output),
     modify(ptr->modify),
     infile(ptr->infile),
     screen(ptr->screen),
@@ -52,6 +53,7 @@ class Pointers {
   Error *&error;
   Ensemble *&ensemble;
   Input *&input;
+  Output *& output;
   Timer *&timer;
   Modify*& modify;
 

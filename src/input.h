@@ -76,6 +76,7 @@ namespace MUSE_NS {
 
         // MUSE commands
         void compute();
+        void system_command();
     };
 
 }

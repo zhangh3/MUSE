@@ -11,24 +11,32 @@
 
 #ifdef COMMAND_CLASS
 
-CommandStyle(run,Run)
+CommandStyle(change,Change)
 
 #else
 
-#ifndef MUSE_RUN_H
-#define MUSE_RUN_H
+#ifndef MUSE_CHANGE_H
+#define MUSE_CHANGE_H
 
 #include "pointers.h"
 
 namespace MUSE_NS {
 
-class Run : protected Pointers {
+class Change : protected Pointers {
  public:
-  Run(class MUSE *);
-  void command(int, char **);
+	 int id;
+	 Change(class MUSE *);
+	 void command(int, char**);
+	 void change_body(int, char**);
+	 void change_joint(int, char**);
+	 void change_system(int, char**);
 };
 
 }
 
 #endif
 #endif
+
+/* ERROR/WARNING messages:
+
+*/

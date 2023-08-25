@@ -19,7 +19,6 @@ namespace MUSE_NS {
 class Compute : protected Pointers {
  public:
 
-  int sysid;
   char *name,*style;
 
   double scalar;            // computed global scalar

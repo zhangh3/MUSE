@@ -32,23 +32,23 @@ enum{POS, VEL, QUAT, EULER, OMG, MASS,
 ComputeBody::ComputeBody(MUSE *muse, int narg, char **arg) :
   Compute(muse, narg, arg)
 {
-  if (narg < 5) error->all(FLERR,"Illegal compute body command");
+  if (narg < 4) error->all(FLERR,"Illegal compute body command");
 
-  for (bodyid = 0; bodyid < muse->system[sysid]->nBodies; bodyid++)
-      if (strcmp(arg[3], muse->system[sysid]->body[bodyid]->name) == 0) {
+  for (bodyid = 0; bodyid < muse->system->nBodies; bodyid++)
+      if (strcmp(arg[2], muse->system->body[bodyid]->name) == 0) {
           break;
       }
-  if (bodyid == muse->system[sysid]->nBodies) {
+  if (bodyid == muse->system->nBodies) {
       char str[128];
-      sprintf(str, "Cannot find body %s in system: %s", arg[4], muse->system[sysid]->name);
+      sprintf(str, "Cannot find body %s in system", arg[4]);
       error->all(FLERR, str);
   }
   else
   {
-      bodyid = muse->system[sysid]->body[bodyid]->IDinMuse; //get id in muse
+      bodyid = muse->system->body[bodyid]->IDinMuse; //get id in muse
   }
 
-  nvalue = narg - 4;
+  nvalue = narg - 3;
   value = new int[nvalue];
 
   nmap = new int[nvalue];
@@ -56,7 +56,7 @@ ComputeBody::ComputeBody(MUSE *muse, int narg, char **arg) :
   for (int i = 0; i < nvalue; i++) nmap[i] = 0;
 
   int ivalue = 0;
-  int iarg = 4;
+  int iarg = 3;
   vcount = 0;
   while (iarg < narg) {
     if (strcmp(arg[iarg],"pos") == 0) {

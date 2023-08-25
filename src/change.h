@@ -29,7 +29,6 @@ class Change : protected Pointers {
 	 void command(int, char**);
 	 void change_body(int, char**);
 	 void change_joint(int, char**);
-	 void change_system(int, char**);
 };
 
 }

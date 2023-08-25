@@ -25,7 +25,7 @@ using namespace MUSE_NS;
 
 Compute::Compute(MUSE *muse, int narg, char **arg) : Pointers(muse)
 {
-  if (narg < 3) error->all(FLERR,"Illegal compute command");
+  if (narg < 2) error->all(FLERR,"Illegal compute command");
 
   // compute ID and style
   // ID must be all alphanumeric chars or underscores
@@ -39,19 +39,10 @@ Compute::Compute(MUSE *muse, int narg, char **arg) : Pointers(muse)
       error->all(FLERR,
 		 "Compute ID must be alphanumeric or underscore characters");
 
-  for (sysid = 0; sysid < muse->nSystems; sysid++)
-      if (strcmp(arg[1], muse->system[sysid]->name) == 0) break;
-  if (sysid == muse->nSystems)
-  {
-      char str[128];
-      sprintf(str, "Cannot find system with name: %s", arg[1]);
-      error->all(FLERR, str);
-  }
 
-
-  n = strlen(arg[2]) + 1;
+  n = strlen(arg[1]) + 1;
   style = new char[n];
-  strcpy(style, arg[2]);
+  strcpy(style, arg[1]);
 
   // set child class defaults
 

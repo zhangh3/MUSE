@@ -48,12 +48,8 @@ public:
 	int endstep;
 	int first_run;
 
-	char* name;
-
 	int nBodies;
 	int nJoints;
-	
-	int IDinMuse;
 
 	bool logflag;
 	Eigen::VectorXd xlognow;
@@ -65,8 +61,7 @@ public:
 	System(class MUSE *);
 	~System();
 
-	void set_Name(char*);
-
+	void command(int, char**);
 	int add_Body(Body *);
 	int remove_Body(Body*);
 	int add_Joint(Joint *);

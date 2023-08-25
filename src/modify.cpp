@@ -199,7 +199,7 @@ void Modify::addstep_compute_all()
 {
 	int newstep;
 	for (int icompute = 0; icompute < ncompute; icompute++) {
-		newstep = muse->system[compute[icompute]->sysid]->ntimestep;
+		newstep = muse->system->ntimestep;
 
 		if (compute[icompute]->timeflag) compute[icompute]->addstep(newstep);
 	}

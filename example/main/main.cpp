@@ -50,7 +50,6 @@ int main(int argc, char **argv){
 	muse->add_Joint(name2);
 	muse->add_Joint(name3);
 
-	muse->add_System(name1);
 
 	muse->body[0]->pos << 0, 0, 0;
 	muse->body[1]->pos << 1, 0, 0;
@@ -78,30 +77,30 @@ int main(int argc, char **argv){
 	muse->joint[2]->set_type(GROUND);
 
 
-	muse->system[0]->add_Body(muse->body[0]);
-	muse->system[0]->add_Body(muse->body[1]);
-	muse->system[0]->add_Body(muse->body[2]);
+	muse->system->add_Body(muse->body[0]);
+	muse->system->add_Body(muse->body[1]);
+	muse->system->add_Body(muse->body[2]);
 
-	muse->system[0]->add_Joint(muse->joint[0]);
-	muse->system[0]->add_Joint(muse->joint[1]);
-	muse->system[0]->add_Joint(muse->joint[2]);
+	muse->system->add_Joint(muse->joint[0]);
+	muse->system->add_Joint(muse->joint[1]);
+	muse->system->add_Joint(muse->joint[2]);
 
 
-	muse->system[0]->setup();
-	muse->system[0]->dt = 1E-3;
+	muse->system->setup();
+	muse->system->dt = 1E-3;
 
 	clock_t start, end;
 	start = clock();
-	muse->system[0]->solve(30);
+	muse->system->solve(30);
 	end = clock();
 
 	cout << "run time: " << fixed << setprecision(2) << 1000 * (double)(end - start) / CLOCKS_PER_SEC << "ms" << endl;
 
 	ofstream out;
 	out.open("./resat.txt",  ios::out);
-	for (int i = 0; i < muse->system[0]->xlog.size();i++)
+	for (int i = 0; i < muse->system->xlog.size();i++)
 	{
-		out << muse->system[0]->xlog[i].transpose() << endl;
+		out << muse->system->xlog[i].transpose() << endl;
 	}
 	delete muse;
 	MPI_Finalize();

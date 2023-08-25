@@ -22,6 +22,7 @@
 #include "body.h"
 #include "timer.h"
 #include "modify.h"
+#include "output.h"
 
 
 #define DELTA 5
@@ -35,13 +36,13 @@ MUSE::MUSE(int narg, char **arg, MPI_Comm communicator)
 	screen = stdout;
 	logfile = NULL;
 	infile = NULL;
+	output = NULL;
 
 	int inflag = 0;
 
 
 	nBodies  = maxBodies  = 0;
 	nJoints  = maxJoints  = 0;
-	nSystems = maxSystems = 0;
 
 	body   = NULL;
 	joint  = NULL;
@@ -50,8 +51,11 @@ MUSE::MUSE(int narg, char **arg, MPI_Comm communicator)
   memory = new Memory(this);
   error = new Error(this);
   ensemble = new Ensemble(this,communicator);
-  ///////
+  system = new System(this);
+
+  ///////creat
   modify = new Modify(this);
+  output = new Output(this);
   timer = new Timer(this);
 
 
@@ -108,11 +112,9 @@ MUSE::~MUSE()
 	delete input;
 	delete timer;
 	delete modify;
+	delete system;
 	//delete comm;
 	//delete output;
-
-	for (int i = 0; i < nSystems; i++) delete system[i];
-	memory->sfree(system);
 
 	for (int i = 0; i < nBodies; i++) delete body[i];
 	memory->sfree(body);
@@ -180,27 +182,4 @@ int MUSE::add_Joint(char* name)
 	joint[ijoint]->IDinMuse = ijoint;
 	nJoints++;
 	return ijoint;
-}
-
-int MUSE::add_System(char* name)
-{
-	int isystem;
-
-	for (isystem = 0; isystem < nSystems; isystem++)
-		if (strcmp(name, system[isystem]->name) == 0) break;
-
-	if (isystem < nSystems) {
-		error->all(FLERR, "Joints with same name!");
-	}
-	else {
-		if (nSystems == maxSystems) {
-			maxSystems += DELTA;
-			system = (System**)memory->srealloc(system, maxSystems * sizeof(System*), "muse:joint");
-		}
-	}
-	system[isystem] = new System(this);
-	system[isystem]->set_Name(name);
-	system[isystem]->IDinMuse = isystem;
-	nSystems++;
-	return isystem;
 }

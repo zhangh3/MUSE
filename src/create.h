@@ -29,7 +29,6 @@ class Create : protected Pointers {
 	 void command(int, char**);
 	 void create_body(int, char**);
 	 void create_joint(int, char**);
-	 void create_system(int, char**);
 };
 
 }

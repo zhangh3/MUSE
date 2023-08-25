@@ -28,30 +28,16 @@ using namespace MUSE_NS;
 /* ---------------------------------------------------------------------- */
 
 Run::Run(MUSE *muse) : Pointers(muse) {
-    sysid = -1;
+    
 }
 
 /* ---------------------------------------------------------------------- */
 
 void Run::command(int narg, char **arg)
 {
-  if (narg < 2) error->all(FLERR,"Illegal run command");
+  if (narg < 1) error->all(FLERR,"Illegal run command");
 
-  int isys;
-
-  for (isys = 0; isys < muse->nSystems; isys++)
-      if (strcmp(arg[0], muse->system[isys]->name) == 0) break;
-
-  if (isys < muse->nSystems) {
-      sysid= isys;
-  }
-  else {
-      char str[128];
-      sprintf(str, "Cannot find system with name: %s", arg[0]);
-      error->all(FLERR, str);
-  }
-
-  int nsteps_input = input->inumeric(FLERR, arg[1]);
+  int nsteps_input = input->inumeric(FLERR, arg[0]);
 
   // parse optional args
 
@@ -65,7 +51,7 @@ void Run::command(int narg, char **arg)
   int ncommands = 0;
   int first,last;
 
-  int iarg = 2;
+  int iarg = 1;
   while (iarg < narg) {
     if (strcmp(arg[iarg],"upto") == 0) {
       if (iarg+1 > narg) error->all(FLERR,"Illegal run command");
@@ -119,7 +105,7 @@ void Run::command(int narg, char **arg)
       error->all(FLERR,"Invalid run command N value");
     nsteps = static_cast<int> (nsteps_input);
   } else {
-    int delta = nsteps_input - muse->system[sysid]->ntimestep;
+    int delta = nsteps_input - muse->system->ntimestep;
     if (delta < 0 || delta > INT_MAX)
       error->all(FLERR,"Invalid run command upto value");
     nsteps = static_cast<int> (delta);
@@ -130,13 +116,13 @@ void Run::command(int narg, char **arg)
   if (startflag) {
     if (start < 0 || start > INT_MAX)
       error->all(FLERR,"Invalid run command start/stop value");
-    if (start > muse->system[sysid]->ntimestep)
+    if (start > muse->system->ntimestep)
       error->all(FLERR,"Run command start value is after start of run");
   }
   if (stopflag) {
     if (stop < 0 || stop > INT_MAX)
       error->all(FLERR,"Invalid run command start/stop value");
-    if (stop < muse->system[sysid]->ntimestep + nsteps)
+    if (stop < muse->system->ntimestep + nsteps)
       error->all(FLERR,"Run command stop value is before end of run");
   }
 
@@ -165,29 +151,29 @@ void Run::command(int narg, char **arg)
 
   if (nevery == 0) {
 
-    muse->system[sysid]->nsteps = nsteps;
-    muse->system[sysid]->firststep = muse->system[sysid]->ntimestep;
-    muse->system[sysid]->laststep = muse->system[sysid]->ntimestep + nsteps;
-    if (muse->system[sysid]->laststep < 0 || muse->system[sysid]->laststep > INT_MAX)
+    muse->system->nsteps = nsteps;
+    muse->system->firststep = muse->system->ntimestep;
+    muse->system->laststep = muse->system->ntimestep + nsteps;
+    if (muse->system->laststep < 0 || muse->system->laststep > INT_MAX)
       error->all(FLERR,"Too many timesteps");
 
-    if (startflag) muse->system[sysid]->beginstep = start;
-    else muse->system[sysid]->beginstep = muse->system[sysid]->firststep;
-    if (stopflag) muse->system[sysid]->endstep = stop;
-    else muse->system[sysid]->endstep = muse->system[sysid]->laststep;
+    if (startflag) muse->system->beginstep = start;
+    else muse->system->beginstep = muse->system->firststep;
+    if (stopflag) muse->system->endstep = stop;
+    else muse->system->endstep = muse->system->laststep;
 
-    if (preflag || muse->system[sysid]->first_run == 0) {
+    if (preflag || muse->system->first_run == 0) {
     //第一次运行需要设置的东西
-        //muse->system[sysid]->first_run = 1;//FIXME
+        //muse->system->first_run = 1;//FIXME
         muse->init();
-        muse->system[sysid]->setup();
+        muse->system->setup();
     } 
 
 
 
     timer->init();
     timer->barrier_start(TIME_LOOP);
-    muse->system[sysid]->solve(nsteps);
+    muse->system->solve(nsteps);
     timer->barrier_stop(TIME_LOOP);
     std::cout << "Iterated " << nsteps << " steps and ";
     std::cout << "took " << std::fixed << std::setprecision(2) << 1000 * timer->array[TIME_LOOP] << " milliseconds" << std::endl;
@@ -196,9 +182,9 @@ void Run::command(int narg, char **arg)
 
     std::ofstream fout;
     fout.open("./res.txt", std::ios::app);
-    for (int i = 1; i < muse->system[sysid]->xlog.size();i++)
+    for (int i = 1; i < muse->system->xlog.size();i++)
     {
-        fout << muse->system[sysid]->xlog[i].transpose() << std::endl;
+        fout << muse->system->xlog[i].transpose() << std::endl;
     }
     fout.close();
 
@@ -216,26 +202,26 @@ void Run::command(int narg, char **arg)
     while (nleft > 0 || iter == 0) {
       nsteps = MIN(nleft,nevery);
 
-      muse->system[sysid]->nsteps = nsteps;
-      muse->system[sysid]->firststep = muse->system[sysid]->ntimestep;
-      muse->system[sysid]->laststep = muse->system[sysid]->ntimestep + nsteps;
-      if (muse->system[sysid]->laststep < 0 || muse->system[sysid]->laststep > INT_MAX)
+      muse->system->nsteps = nsteps;
+      muse->system->firststep = muse->system->ntimestep;
+      muse->system->laststep = muse->system->ntimestep + nsteps;
+      if (muse->system->laststep < 0 || muse->system->laststep > INT_MAX)
         error->all(FLERR,"Too many timesteps");
 
-      if (startflag) muse->system[sysid]->beginstep = start;
-      else muse->system[sysid]->beginstep = muse->system[sysid]->firststep;
-      if (stopflag) muse->system[sysid]->endstep = stop;
-      else muse->system[sysid]->endstep = muse->system[sysid]->laststep;
+      if (startflag) muse->system->beginstep = start;
+      else muse->system->beginstep = muse->system->firststep;
+      if (stopflag) muse->system->endstep = stop;
+      else muse->system->endstep = muse->system->laststep;
 
       if (preflag || iter == 0) {
-          //muse->system[sysid]->first_run = 1;//FIXME
+          //muse->system->first_run = 1;//FIXME
           muse->init();
-          muse->system[sysid]->setup();
+          muse->system->setup();
       } 
 
       timer->init();
       timer->barrier_start(TIME_LOOP);
-      muse->system[sysid]->solve(nsteps);
+      muse->system->solve(nsteps);
       timer->barrier_stop(TIME_LOOP);
       std::cout << "Iterated "<< nsteps <<" steps and ";
       std::cout << "took " << std::fixed << std::setprecision(2) << 1000 * timer->array[TIME_LOOP] << " milliseconds" << std::endl;
@@ -244,9 +230,9 @@ void Run::command(int narg, char **arg)
 
       std::ofstream fout;
       fout.open("./res.txt", std::ios::app);
-      for (int i = 1; i < muse->system[sysid]->xlog.size();i++)
+      for (int i = 1; i < muse->system->xlog.size();i++)
       {
-          fout << muse->system[sysid]->xlog[i].transpose() << std::endl;
+          fout << muse->system->xlog[i].transpose() << std::endl;
       }
       fout.close();
  
@@ -258,7 +244,7 @@ void Run::command(int narg, char **arg)
             //error->warning(FLERR, "ncommands apear!!"); //zhangh3:FIXME
             modify->clearstep_compute();
             for (int i = 0; i < ncommands; i++) input->one(commands[i]);
-            modify->addstep_compute(muse->system[sysid]->ntimestep + nevery);
+            modify->addstep_compute(muse->system->ntimestep + nevery);
       }
 
       nleft -= nsteps;
@@ -266,8 +252,8 @@ void Run::command(int narg, char **arg)
     }
   }
 
-  muse->system[sysid]->firststep = muse->system[sysid]->laststep = 0;
-  muse->system[sysid]->beginstep = muse->system[sysid]->endstep = 0;
+  muse->system->firststep = muse->system->laststep = 0;
+  muse->system->beginstep = muse->system->endstep = 0;
 
   if (commands) {
     for (int i = 0; i < ncommands; i++) delete [] commands[i];

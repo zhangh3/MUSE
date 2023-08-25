@@ -28,7 +28,6 @@ Body::Body(MUSE *muse) : Pointers(muse)
 	mass = 1;
 	set_Inertia(1,1,1,0,0,0);
 
-	mySystem = NULL;
 	IDinSystem = -1;
 	IDinMuse = -1;
 }

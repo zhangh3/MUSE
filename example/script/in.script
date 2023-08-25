@@ -11,11 +11,11 @@ create joint j2  sphere body1 b2 body2 b3 point1 0.5 0 0 point2 -0.5 0 0
 create joint grd ground body1 b1 
 
 
-#创建一个多刚体系统，系统由b1、b2、b3三个刚体和j1、j2、grd三个约束构成，时间步长取0.001s，重力方向为0 -9.8 0
-create system s1 bodys b1 b2 b3 /bodys joints j1 j2 grd /joints dt 1E-3 gravity 0 -9.8 0
+#将b1、b2、b3三个刚体和j1、j2、grd三个约束构成加入多刚体系统，时间步长取0.001s，重力方向为0 -9.8 0
+system addbodys b1 b2 b3 /addbodys addjoints j1 j2 grd /addjoints dt 1E-3 gravity 0 -9.8 0
 
 #求解50时间步
-run s1 50
+run 50
 
 #将刚体b1的质量改成2
 change body b1 mass 2
@@ -25,17 +25,17 @@ label	    loop #创建一个名为loop的标记，用于循环
 print	    "A = $a" #输出a的值
 if	    "$a > 2" then "jump in.script break" #若a>2,跳转到标记break
 #求解50时间步
-run s1 50
+run 50
 next	    a #取下一个a值
 jump	    in.script loop #跳转到标记loop
 label	    break
 print	    "BREAK A = $a"
 variable    a delete
 
-#将多刚体系统s1中的约束j2去除
-change system s1 removejoint j2
+#将多刚体系统中的约束j2去除
+system removejoint j2
 
 #运行200步
-run s1 200
+run 200
 
 print "finish"

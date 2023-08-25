@@ -44,7 +44,6 @@ public:
 	Eigen::Matrix3d DCM;               //transformation matrix from body frame to inertial frame
 	Eigen::Matrix4d inertia4;          //inertia in quaternion form
 
-	System* mySystem;
 	int IDinSystem;
 	int IDinMuse;
 

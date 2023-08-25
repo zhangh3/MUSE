@@ -32,7 +32,7 @@ public:
 	Eigen::Vector3d point2;
 
 	Body *body[2];
-	System * mySystem;
+
 	int IDinSystem;
 	int IDinMuse;
 

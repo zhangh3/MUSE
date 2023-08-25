@@ -24,6 +24,7 @@
 #include "variable.h"
 #include "modify.h"
 #include "compute.h"
+#include "MUSEsystem.h"
 
 using namespace MUSE_NS;
 
@@ -488,6 +489,7 @@ int Input::execute_command()
     else if (!strcmp(command, "next")) next_command();
     else if (!strcmp(command, "jump")) jump();
     else if (!strcmp(command, "compute")) compute();
+    else if (!strcmp(command, "system")) system_command();
 
     else flag = 0;
 
@@ -877,6 +879,11 @@ void Input::variable_command()
 void Input::compute()
 {
     modify->add_compute(narg, arg);
+}
+
+void Input::system_command()
+{
+    muse->system->command(narg, arg);
 }
 
 /* ----------------------------------------------------------------------

@@ -29,7 +29,6 @@ Joint::Joint(MUSE *muse) : Pointers(muse)
 
 	consptr = NULL;
 
-	mySystem = NULL;
 	IDinSystem = -1;
 	IDinMuse = -1;
 }

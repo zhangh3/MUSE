@@ -16,6 +16,7 @@
 #include "memory.h"
 #include "error.h"
 #include "joint_enums.h"
+#include "input.h"
 
 //////test
 #include <iostream>
@@ -29,12 +30,10 @@ using namespace MUSE_NS;
 
 System::System(MUSE *muse) : Pointers(muse)
 {
-	name = NULL;
     nBodies = maxBodies = 0;
 	nJoints = maxJoints = 0;
 	body  = NULL;
 	joint = NULL;
-	IDinMuse = -1;
 	timenow = 0;
 	dt = 1E-4;
 
@@ -54,16 +53,196 @@ System::~System()
 {
 	memory->sfree(body);
 	memory->sfree(joint);
-	delete[] name;
 }
 
-void System::set_Name(char* newname)
+
+void System::command(int narg, char** arg)
 {
-	int n = strlen(newname) + 1;
-	if (n < 2) error->one(FLERR, "Body name is empty!");
-	name = new char[n];
-	strcpy(name, newname);
+	if (narg < 1) error->all(FLERR, "Illegal change system command");
+
+	int iarg = 0;
+
+	while (iarg < narg) {
+		if (strcmp(arg[iarg], "dt") == 0) {
+			if (narg <= iarg + 1) error->all(FLERR, "Illegal change system command");
+			muse->system->dt = input->numeric(FLERR, arg[iarg + 1]);
+			if (muse->system->dt <= 0) error->all(FLERR, "The time step must be a posotive value");
+			iarg = iarg + 2;
+		}
+		else if (strcmp(arg[iarg], "gravity") == 0) {
+			if (narg <= iarg + 3) error->all(FLERR, "Illegal change system command");
+			double px = input->numeric(FLERR, arg[iarg + 1]);
+			double py = input->numeric(FLERR, arg[iarg + 2]);
+			double pz = input->numeric(FLERR, arg[iarg + 3]);
+			muse->system->ga << px, py, pz;
+			iarg = iarg + 4;
+		}
+		else if (strcmp(arg[iarg], "addbody") == 0) {
+			if (narg <= iarg + 1) error->all(FLERR, "Illegal change system command");
+			int ibody;
+			for (ibody = 0; ibody < muse->nBodies; ibody++)
+				if (strcmp(arg[iarg + 1], muse->body[ibody]->name) == 0) break;
+
+			if (ibody < muse->nBodies) {
+				muse->system->add_Body(muse->body[ibody]);
+			}
+			else {
+				char str[128];
+				sprintf(str, "Cannot find body with name: %s", arg[iarg + 1]);
+				error->all(FLERR, str);
+			}
+			iarg = iarg + 2;
+		}
+		else if (strcmp(arg[iarg], "addbodys") == 0) {
+			int count = 1;
+			while (true)
+			{
+				if (narg <= iarg + count) error->all(FLERR, "Illegal change system command");
+				if (strcmp(arg[iarg + count], "/addbodys") == 0) break;
+
+				int ibody;
+
+				for (ibody = 0; ibody < muse->nBodies; ibody++)
+					if (strcmp(arg[iarg + count], muse->body[ibody]->name) == 0) break;
+
+				if (ibody < muse->nBodies) {
+					muse->system->add_Body(muse->body[ibody]);
+				}
+				else {
+					char str[128];
+					sprintf(str, "Cannot find body with name: %s", arg[iarg + count]);
+					error->all(FLERR, str);
+				}
+				count++;
+			}
+			iarg = iarg + count + 1;
+		}
+		else if (strcmp(arg[iarg], "addjoint") == 0) {
+			if (narg <= iarg + 1) error->all(FLERR, "Illegal change system command");
+			int ijoint;
+			for (ijoint = 0; ijoint < muse->nJoints; ijoint++)
+				if (strcmp(arg[iarg + 1], muse->joint[ijoint]->name) == 0) break;
+
+			if (ijoint < muse->nJoints) {
+				muse->system->add_Joint(muse->joint[ijoint]);
+			}
+			else {
+				char str[128];
+				sprintf(str, "Cannot find joint with name: %s", arg[iarg + 1]);
+				error->all(FLERR, str);
+			}
+			iarg = iarg + 2;
+		}
+		else if (strcmp(arg[iarg], "addjoints") == 0) {
+			int count = 1;
+			while (true)
+			{
+				if (narg <= iarg + count) error->all(FLERR, "Illegal change system command");
+				if (strcmp(arg[iarg + count], "/addjoints") == 0) break;
+
+				int ijoint;
+
+				for (ijoint = 0; ijoint < muse->nJoints; ijoint++)
+					if (strcmp(arg[iarg + count], muse->joint[ijoint]->name) == 0) break;
+
+				if (ijoint < muse->nJoints) {
+					muse->system->add_Joint(muse->joint[ijoint]);
+				}
+				else {
+					char str[128];
+					sprintf(str, "Cannot find joint with name: %s", arg[iarg + count]);
+					error->all(FLERR, str);
+				}
+				count++;
+			}
+			iarg = iarg + count + 1;
+		}
+		else if (strcmp(arg[iarg], "removebody") == 0) {
+			if (narg <= iarg + 1) error->all(FLERR, "Illegal change system command");
+			int ibody;
+			for (ibody = 0; ibody < muse->nBodies; ibody++)
+				if (strcmp(arg[iarg + 1], muse->body[ibody]->name) == 0) break;
+
+			if (ibody < muse->nBodies) {
+				muse->system->remove_Body(muse->body[ibody]);
+			}
+			else {
+				char str[128];
+				sprintf(str, "Cannot find body with name: %s", arg[iarg + 1]);
+				error->all(FLERR, str);
+			}
+			iarg = iarg + 2;
+		}
+		else if (strcmp(arg[iarg], "removebodys") == 0) {
+			int count = 1;
+			while (true)
+			{
+				if (narg <= iarg + count) error->all(FLERR, "Illegal change system command");
+				if (strcmp(arg[iarg + count], "/addbodys") == 0) break;
+
+				int ibody;
+
+				for (ibody = 0; ibody < muse->nBodies; ibody++)
+					if (strcmp(arg[iarg + count], muse->body[ibody]->name) == 0) break;
+
+				if (ibody < muse->nBodies) {
+					muse->system->remove_Body(muse->body[ibody]);
+				}
+				else {
+					char str[128];
+					sprintf(str, "Cannot find body with name: %s", arg[iarg + count]);
+					error->all(FLERR, str);
+				}
+				count++;
+			}
+			iarg = iarg + count + 1;
+		}
+		else if (strcmp(arg[iarg], "removejoint") == 0) {
+			if (narg <= iarg + 1) error->all(FLERR, "Illegal change system command");
+			int ijoint;
+			for (ijoint = 0; ijoint < muse->nJoints; ijoint++)
+				if (strcmp(arg[iarg + 1], muse->joint[ijoint]->name) == 0) break;
+
+			if (ijoint < muse->nJoints) {
+				muse->system->remove_Joint(muse->joint[ijoint]);
+			}
+			else {
+				char str[128];
+				sprintf(str, "Cannot find joint with name: %s", arg[iarg + 1]);
+				error->all(FLERR, str);
+			}
+			iarg = iarg + 2;
+		}
+		else if (strcmp(arg[iarg], "removejoints") == 0) {
+			int count = 1;
+			while (true)
+			{
+				if (narg <= iarg + count) error->all(FLERR, "Illegal change system command");
+				if (strcmp(arg[iarg + count], "/addjoints") == 0) break;
+
+				int ijoint;
+
+				for (ijoint = 0; ijoint < muse->nJoints; ijoint++)
+					if (strcmp(arg[iarg + count], muse->joint[ijoint]->name) == 0) break;
+
+				if (ijoint < muse->nJoints) {
+					muse->system->remove_Joint(muse->joint[ijoint]);
+				}
+				else {
+					char str[128];
+					sprintf(str, "Cannot find joint with name: %s", arg[iarg + count]);
+					error->all(FLERR, str);
+				}
+				count++;
+			}
+			iarg = iarg + count + 1;
+		}
+		else error->all(FLERR, "Illegal change system command");
+	}
+
 }
+
+
 
 void System::solve(int nsteps)
 {
@@ -229,15 +408,8 @@ int System::add_Body(Body *bodynow)
 			body = (Body**)memory->srealloc(body, maxBodies * sizeof(Body*), "muse:body");
 		}
 	}
-	if (bodynow->mySystem != NULL)
-	{
-		char str[128];
-		sprintf(str, "Body %s has been added to a system %s ", bodynow->name, bodynow->mySystem->name);
-		error->warning(FLERR, str);
-	}
 	body[ibody] = bodynow;
 	body[ibody]->IDinSystem = ibody;
-	body[ibody]->mySystem=this;
 	nBodies++;
 	return ibody;
 }
@@ -251,12 +423,12 @@ int MUSE_NS::System::remove_Body(Body *bodynow)
 
 	if (ibody == nBodies) {
 		char str[128];
-		sprintf(str, "Cannot find body %s in system: %s", body[ibody]->name, this->name);
+		sprintf(str, "Cannot find body %s in system", body[ibody]->name);
 		error->all(FLERR, str);
 	}
 
 	body[ibody]->IDinSystem = -1;
-	body[ibody]->mySystem = NULL;
+
 
 	for (ibody1 = ibody; ibody1 < nBodies - 1; ibody1++)
 	{
@@ -284,15 +456,9 @@ int System::add_Joint(Joint *jointnow)
 			joint = (Joint**)memory->srealloc(joint, maxJoints * sizeof(Joint*), "muse:joint");
 		}
 	}
-	if (jointnow->mySystem != NULL)
-	{
-		char str[128];
-		sprintf(str, "Joint %s has been added to a system %s ", jointnow->name, jointnow->mySystem->name);
-		error->warning(FLERR, str);
-	}
+
 	joint[ijoint] = jointnow;
 	joint[ijoint]->IDinSystem = ijoint;
-	joint[ijoint]->mySystem = this;
 
 	nJoints++;
 	return ijoint;
@@ -307,12 +473,11 @@ int MUSE_NS::System::remove_Joint(Joint *jointnow)
 
 	if (ijoint == nJoints) {
 		char str[128];
-		sprintf(str, "Cannot find joint %s in system: %s", joint[ijoint]->name, this->name);
+		sprintf(str, "Cannot find joint %s ", joint[ijoint]->name);
 		error->all(FLERR, str);
 	}
 
 	joint[ijoint]->IDinSystem = -1;
-	joint[ijoint]->mySystem = NULL;
 
 	for (ijoint1 = ijoint; ijoint1 < nJoints - 1; ijoint1++)
 	{
