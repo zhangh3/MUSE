@@ -114,7 +114,7 @@ MUSE::~MUSE()
 	delete modify;
 	delete system;
 	//delete comm;
-	//delete output;
+	delete output;
 
 	for (int i = 0; i < nBodies; i++) delete body[i];
 	memory->sfree(body);
@@ -134,7 +134,7 @@ void MUSE_NS::MUSE::init()
 {
 	//comm->init();//FIXME
 	modify->init();               
-	//output->init();//FIXME
+	output->init();
 	timer->init();
 }
 

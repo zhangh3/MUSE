@@ -28,6 +28,10 @@ class Modify : protected Pointers {
   Modify(class MUSE *);
   ~Modify();
   void init();
+  void setup();
+  virtual void start_of_step();
+  virtual void end_of_step();
+
 
   void add_compute(int, char **);
   void delete_compute(const char *);

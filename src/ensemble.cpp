@@ -34,4 +34,5 @@ Ensemble::Ensemble(MUSE *muse, MPI_Comm communicator) : Pointers(muse)
 
 Ensemble::~Ensemble()
 {
+	delete ranmaster;
 }
