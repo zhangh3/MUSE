@@ -36,7 +36,6 @@ namespace MUSE_NS {
         
         double numeric(const char*, int, const char*);    // arg checking
         int inumeric(const char*, int, char*);
-        int bnumeric(const char*, int, char*);
         void bounds(char*, int, int&, int&, int nmin = 1);
         int count_words(char*);
 
@@ -77,6 +76,9 @@ namespace MUSE_NS {
         // MUSE commands
         void compute();
         void system_command();
+        void stats();
+        void stats_modify();
+        void stats_style();
     };
 
 }

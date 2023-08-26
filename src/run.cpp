@@ -18,6 +18,7 @@
 #include "MUSEsystem.h"
 #include "timer.h"
 #include "modify.h"
+#include "output.h"
 
 #include <iostream>
 #include <fstream>
@@ -167,7 +168,8 @@ void Run::command(int narg, char **arg)
         //muse->system->first_run = 1;//FIXME
         muse->init();
         muse->system->setup();
-    } 
+    }
+    else output->setup(0);
 
 
 
@@ -217,7 +219,8 @@ void Run::command(int narg, char **arg)
           //muse->system->first_run = 1;//FIXME
           muse->init();
           muse->system->setup();
-      } 
+      }
+      else output->setup(0);
 
       timer->init();
       timer->barrier_start(TIME_LOOP);

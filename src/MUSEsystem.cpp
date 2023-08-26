@@ -17,6 +17,9 @@
 #include "error.h"
 #include "joint_enums.h"
 #include "input.h"
+#include "timer.h"
+#include "output.h"
+#include "modify.h"
 
 //////test
 #include <iostream>
@@ -246,6 +249,9 @@ void System::command(int narg, char** arg)
 
 void System::solve(int nsteps)
 {
+
+	int n_start_of_step = modify->n_start_of_step;
+	int n_end_of_step = modify->n_end_of_step;
 	
 	first_run = 1; 
 	int ibody, ijoint;
@@ -273,6 +279,14 @@ void System::solve(int nsteps)
 	for (int i = 0; i < nsteps; i++) {
 
 		ntimestep++;
+		timer->stamp();
+
+		if (n_start_of_step) {
+			modify->start_of_step();
+			timer->stamp(TIME_MODIFY);
+		}
+
+
 //		update_euler();
 		update_RK4();
 		//using namespace std;
@@ -282,6 +296,20 @@ void System::solve(int nsteps)
 			xlognow << timenow, x, xd, xdd;
 			xlog.push_back(xlognow);
 		}
+
+		if (n_end_of_step) {
+			modify->end_of_step();
+			timer->stamp(TIME_MODIFY);
+		}
+
+		// all output
+		//std::cout << ntimestep << " -- " << output->next << std::endl;
+		if (ntimestep == output->next) {
+			std::cout << ntimestep << " ininin " << output->next << std::endl;
+			output->write(ntimestep);
+			timer->stamp(TIME_OUTPUT);
+		}
+
 	}
 	
 }
@@ -505,6 +533,8 @@ void System::setup()
 	xd.resize(7 * nBodies);
 	xdd.resize(7 * nBodies);
 	xlognow.resize(21 * nBodies + 1);
+
+	output->setup(1);
 }
 
 void System::makeBigF()

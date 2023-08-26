@@ -12,7 +12,7 @@
 #include "string.h"
 #include "compute_body.h"
 #include "MUSEsystem.h"
-#include "Body.h"
+#include "body.h"
 #include "modify.h"
 #include "memory.h"
 #include "error.h"

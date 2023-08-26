@@ -65,14 +65,14 @@ Modify::~Modify()
 }
 
 /* ----------------------------------------------------------------------
-   initialize all fixes and computes
+   initialize all and computes
 ------------------------------------------------------------------------- */
 
 void Modify::init()
 {
 	int i;
 
-	// create other lists of fixes and computes
+	// create other lists of computes
 
 	list_init_computes();
 
@@ -92,7 +92,30 @@ void Modify::init()
 	addstep_compute_all();
 }
 
-/* ---------------------------------------------------------------------- */
+void Modify::setup()
+{
+	//FIXME:有fix添加
+}
+
+/* ----------------------------------------------------------------------
+   start-of-timestep call, only for relevant fixes
+------------------------------------------------------------------------- */
+
+void Modify::start_of_step()
+{
+	//FIXME:有fix添加
+}
+
+/* ----------------------------------------------------------------------
+   end-of-timestep call, only for relevant fixes
+   only call fix->end_of_step() on timesteps that are multiples of nevery
+------------------------------------------------------------------------- */
+
+void Modify::end_of_step()
+{
+	//FIXME:有fix添加
+}
+
 
 /* ----------------------------------------------------------------------
    add a new compute
