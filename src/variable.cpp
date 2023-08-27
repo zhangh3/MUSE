@@ -14,6 +14,7 @@
 #include "string.h"
 #include "ctype.h"
 #include "MUSEunistd.h"
+#include "MUSEsystem.h"
 #include "variable.h"
 #include "input.h"
 #include "random_mars.h"
@@ -21,6 +22,8 @@
 #include "memory.h"
 #include "error.h"
 #include "ensemble.h"
+#include "compute.h"
+#include "modify.h"
 
 using namespace MUSE_NS;
 
@@ -670,7 +673,7 @@ double Variable::evaluate(char *str, Tree **tree)
     onechar = str[i];
 
     // whitespace: just skip
-
+    std::locale::global(std::locale(""));//修复isspace不读中文
     if (isspace(onechar)) i++;
 
     // ----------------
@@ -1957,10 +1960,51 @@ int Variable::special_function(char *word, char *contents, Tree **tree,
     if (narg != 1)
       error->all(FLERR,"Invalid special function in variable formula");
 
-   
+    Compute* compute = NULL;
     int index,nvec,nstride;
 
     //FIXME::nvec与comput有关！！！
+
+
+
+    if (strstr(arg1, "c_") == arg1) {
+        ptr1 = strchr(arg1, '[');
+        if (ptr1) {
+            ptr2 = ptr1;
+            index = int_between_brackets(ptr2, 0);
+            *ptr1 = '\0';
+        }
+        else index = 0;
+
+        int icompute = modify->find_compute(&arg1[2]);
+        if (icompute < 0)
+            error->all(FLERR, "Invalid compute ID in variable formula");
+        compute = modify->compute[icompute];
+        if (index == 0 && compute->vector_flag) {
+            //FIXME:这里删除了runflag
+            if (!(compute->invoked_flag & INVOKED_VECTOR)) {
+                compute->compute_vector();
+                compute->invoked_flag |= INVOKED_VECTOR;
+            }
+            nvec = compute->size_vector;
+            nstride = 1;
+        }
+        else if (index && compute->array_flag) {
+            if (index > compute->size_array_cols)
+                error->all(FLERR, "Variable formula compute array "
+                    "is accessed out-of-range");
+            //FIXME:这里删除了runflag
+            if (!(compute->invoked_flag & INVOKED_ARRAY)) {
+                compute->compute_array();
+                compute->invoked_flag |= INVOKED_ARRAY;
+            }
+            nvec = compute->size_array_rows;
+            nstride = compute->size_array_cols;
+        }
+        else error->all(FLERR, "Mismatched compute in variable formula");
+
+    }
+    else error->all(FLERR, "Invalid special function in variable formula");
 
 
 
@@ -1969,8 +2013,35 @@ int Variable::special_function(char *word, char *contents, Tree **tree,
     if (method == XMIN) value = BIG;
     if (method == XMAX) value = -BIG;
 
+    if (compute) {
+        double* vec;
+        if (index) {
+            if (compute->array) vec = &compute->array[0][index - 1];
+            else vec = NULL;
+        }
+        else vec = compute->vector;
 
-   // if (method == AVE) value /= nvec;//FIXME
+        int j = 0;
+        for (int i = 0; i < nvec; i++) {
+            if (method == SUM) value += vec[j];
+            else if (method == XMIN) value = MIN(value, vec[j]);
+            else if (method == XMAX) value = MAX(value, vec[j]);
+            else if (method == AVE) value += vec[j];
+            else if (method == TRAP) value += vec[j];
+            else if (method == SLOPE) {
+                if (nvec > 1) xvalue = (double)i / (nvec - 1);
+                else xvalue = 0.0;
+                sx += xvalue;
+                sy += vec[j];
+                sxx += xvalue * xvalue;
+                sxy += xvalue * vec[j];
+            }
+            j += nstride;
+        }
+        if (method == TRAP) value -= 0.5 * vec[0] + 0.5 * vec[nvec - 1];
+    }
+
+    if (method == AVE) value /= nvec;//FIXME
 
     if (method == SLOPE) {
       double numerator = sxy - sx*sy;
@@ -2137,7 +2208,7 @@ double Variable::evaluate_boolean(char *str)
     onechar = str[i];
 
     // whitespace: just skip
-
+    std::locale::global(std::locale(""));//修复isspace不读中文
     if (isspace(onechar)) i++;
 
     // ----------------

@@ -125,6 +125,7 @@ void Input::file()
         if (line[m-1] != '\n') continue;
 
         m--;
+        std::locale::global(std::locale(""));//修复isspace不读中文
         while (m >= 0 && isspace(line[m])) m--;
         if (m < 0 || line[m] != '&') {
           line[m+1] = '\0';
@@ -338,6 +339,7 @@ char *Input::nextword(char *str, char **next)
   if (*start == '"' || *start == '\'') {
     stop = strchr(&start[1],*start);
     if (!stop) error->all(FLERR,"Unbalanced quotes in input line");
+    std::locale::global(std::locale(""));//修复isspace不读中文
     if (stop[1] && !isspace(stop[1]))
       error->all(FLERR,"Input line quote not followed by whitespace");
     start++;

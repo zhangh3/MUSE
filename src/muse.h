@@ -9,10 +9,11 @@
    Copyright (c) 2023 Zhang He. All rights reserved.
 ------------------------------------------------------------------------- */
 
-
 #ifndef MUSE_MUSE_H
 #define MUSE_MUSE_H
+
 #include "stdio.h"
+
 namespace MUSE_NS{
     class MUSE {
 	public:
