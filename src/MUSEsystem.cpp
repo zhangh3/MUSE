@@ -303,9 +303,7 @@ void System::solve(int nsteps)
 		}
 
 		// all output
-		//std::cout << ntimestep << " -- " << output->next << std::endl;
 		if (ntimestep == output->next) {
-			std::cout << ntimestep << " ininin " << output->next << std::endl;
 			output->write(ntimestep);
 			timer->stamp(TIME_OUTPUT);
 		}

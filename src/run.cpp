@@ -177,8 +177,8 @@ void Run::command(int narg, char **arg)
     timer->barrier_start(TIME_LOOP);
     muse->system->solve(nsteps);
     timer->barrier_stop(TIME_LOOP);
-    std::cout << "Iterated " << nsteps << " steps and ";
-    std::cout << "took " << std::fixed << std::setprecision(2) << 1000 * timer->array[TIME_LOOP] << " milliseconds" << std::endl;
+    //std::cout << "Iterated " << nsteps << " steps and ";
+    //std::cout << "took " << std::fixed << std::setprecision(2) << 1000 * timer->array[TIME_LOOP] << " milliseconds" << std::endl;
 
 
 
@@ -226,8 +226,8 @@ void Run::command(int narg, char **arg)
       timer->barrier_start(TIME_LOOP);
       muse->system->solve(nsteps);
       timer->barrier_stop(TIME_LOOP);
-      std::cout << "Iterated "<< nsteps <<" steps and ";
-      std::cout << "took " << std::fixed << std::setprecision(2) << 1000 * timer->array[TIME_LOOP] << " milliseconds" << std::endl;
+      //std::cout << "Iterated "<< nsteps <<" steps and ";
+      //std::cout << "took " << std::fixed << std::setprecision(2) << 1000 * timer->array[TIME_LOOP] << " milliseconds" << std::endl;
 
 
 

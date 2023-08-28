@@ -131,9 +131,9 @@ void Output::setup(int memflag)
     modify->addstep_compute(next_stats);
 
     // next = next timestep any output will be done
-
+    next = next_stats;
     //next = MIN(next_dump_any, next_restart);
-    next = MIN(next, next_stats);
+    //next = MIN(next, next_stats);
 }
 
 /* ----------------------------------------------------------------------
@@ -147,7 +147,6 @@ void Output::write(int ntimestep)
     //FIXME:这里缺少输出与续算
     // insure next_thermo forces output on last step of run
     // thermo may invoke computes so wrap with clear/add
-    std::cout << next_stats << "---" << ntimestep << std::endl;
 
     if (next_stats == ntimestep) {
         modify->clearstep_compute();
@@ -167,7 +166,7 @@ void Output::write(int ntimestep)
 
     // next = next timestep any output will be done
     //FIXME:这里缺少输出与续算
-    next = MIN(next, next_stats);
+    next = next_stats;
 }
 
 /* ----------------------------------------------------------------------
@@ -203,7 +202,7 @@ void Output::reset_timestep(int ntimestep)
     else next_stats = muse->system->laststep;
 
     //FIXME:这里缺少输出与续算
-    next = MIN(next, next_stats);
+    next = next_stats;
 }
 
 /* ----------------------------------------------------------------------

@@ -68,14 +68,13 @@ Stats::Stats(MUSE *muse) : Pointers(muse)
 
   // default args
 
-  char **arg = new char*[3];
+  char **arg = new char*[2];
   arg[0] = (char *) "step";
   arg[1] = (char *) "cpu";
-  arg[2] = (char *) "cpu";//FIXME
 
-  nfield = 3;
+  nfield = 2;
   allocate();
-  set_fields(3,arg);
+  set_fields(2,arg);
 
   delete [] arg;
 
