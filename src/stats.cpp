@@ -406,8 +406,10 @@ void Stats::set_fields(int narg, char **arg)
       addfield("Elapsed",&Stats::compute_elapsed, INT);
     } else if (strcmp(arg[i],"elaplong") == 0) {
       addfield("Elapsed",&Stats::compute_elaplong, INT);
-    } else if (strcmp(arg[i],"dt") == 0) {
-      addfield("Dt",&Stats::compute_dt,FLOAT);
+    } else if (strcmp(arg[i], "dt") == 0) {
+        addfield("Dt", &Stats::compute_dt, FLOAT);
+    } else if (strcmp(arg[i], "time") == 0) {
+        addfield("Time", &Stats::compute_time, FLOAT);
     } else if (strcmp(arg[i],"cpu") == 0) {
       addfield("CPU",&Stats::compute_cpu,FLOAT);
     } else if (strcmp(arg[i],"tpcpu") == 0) {
@@ -577,6 +579,10 @@ int Stats::evaluate_keyword(char *word, double *answer)
   } else if (strcmp(word,"dt") == 0) {
     compute_dt();
 
+  }
+  else if (strcmp(word, "time") == 0) {
+      compute_time();
+
   } else if (strcmp(word,"cpu") == 0) {
 
     compute_cpu();
@@ -650,7 +656,12 @@ void Stats::compute_elaplong()
 
 void Stats::compute_dt()
 {
-  dvalue = muse->system->dt;
+    dvalue = muse->system->dt;
+}/* ---------------------------------------------------------------------- */
+
+void Stats::compute_time()
+{
+    dvalue = muse->system->timenow;
 }
 
 /* ---------------------------------------------------------------------- */

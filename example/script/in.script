@@ -35,6 +35,12 @@ variable    a delete
 #将多刚体系统中的约束j2去除
 system removejoint j2
 
+#每隔10步屏幕输出一次内容
+stats 10
+
+#屏幕输出内容：步数、cpu耗时、物理时间
+stats_style	    step cpu time
+
 #运行200步
 run 200
 
