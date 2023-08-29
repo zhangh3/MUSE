@@ -124,7 +124,8 @@ MUSE::~MUSE()
 
 	if (me == 0) {
 		if (screen && screen != stdout) fclose(screen);
-		if (infile != stdin) fclose(infile);
+		//infile 已在file()内关闭但是为了避免自定义main（）中不调用file（），增加此行判断
+		if (infile && infile != stdin) fclose(infile); 
 		if (logfile) fclose(logfile);
 	}
 	
