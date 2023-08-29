@@ -35,11 +35,18 @@ variable    a delete
 #将多刚体系统中的约束j2去除
 system removejoint j2
 
+#提取b1的位置、速度信息，存于compute变量comb1
+compute comb1 body b1  pos vel
+
+#提取b1的角速度信息，存于compute变量comb2
+compute comb2 body b2  omega
+
 #每隔10步屏幕输出一次内容
 stats 10
 
-#屏幕输出内容：步数、cpu耗时、物理时间
-stats_style	    step cpu time
+#屏幕输出内容：步数、cpu耗时、物理时间 变量comb1 变量comb2
+stats_style	    step cpu time c_comb1[*] c_comb2[*]
+
 
 #运行200步
 run 200

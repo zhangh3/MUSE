@@ -35,24 +35,20 @@ class ComputeBody : public Compute {
   int bodyid;                //
   int imix,nvalue;
   int *value;                // keyword for each user requested value
-  int vcount;
+  int ncount;
 
-  int *unique;               // unique keywords for tally, len = npergroup
-  int npergroup;             // # of unique tally quantities per group
-  int cellcount,cellmass;    // 1 if total cell count/mass is tallied
-  int ntotal;                // total # of columns in tally array
-  int nglocal;               // # of owned grid cells
 
-  int *nmap;                 // # of tally quantities each user value uses
-  int **map;                 // which tally columns each output value uses
-  double **tally;            // array of tally quantities, cells by ntotal
+  int *nlen;                 // # of tally quantities each user value uses
+  int* nstart;                // # of tally quantities each user value uses
 
-  double eprefactor;         // conversion from velocity^2 to energy
-  double tprefactor;         // conversion from KE to temperature
-  double rvprefactor;        // conversion from rot/vib E to temperature
+
 
   void set_map(int, int);
   void reset_map();
+
+  double compute_scalar();
+  void compute_vector();
+  void compute_one(int);
 };
 
 }
