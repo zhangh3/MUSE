@@ -28,15 +28,15 @@ namespace MUSE_NS {
 		int ivar_stats;              // variable index for stats frequency
 		class Stats* stats;          // statistical output
 
-		//int nresult;                     // # of result defined
-		//int max_result;                  // max size of result list
-		//int next_result_any;             // next timestep for any result
-		//int* every_result;               // output of each result every this many steps
-		//int* next_result;                // next timestep to do each result
-		//int* last_result;                // last timestep each snapshot was output
-		//char** var_result;               // variable name for result frequency
-		//int* ivar_result;                // variable index for result frequency
-		//class Result** result;           // list of defined results
+		int nresult;                     // # of result defined
+		int max_result;                  // max size of result list
+		int next_result_any;             // next timestep for any result
+		int* every_result;               // output of each result every this many steps
+		int* next_result;                // next timestep to do each result
+		int* last_result;                // last timestep each snapshot was output
+		char** var_result;               // variable name for result frequency
+		int* ivar_result;                // variable index for result frequency
+		class Result** result;           // list of defined results
 
 		//int restart_flag;             // 1 if restart files are written
 		//int restart_every;            // restart file write freq, 0 if var

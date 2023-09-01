@@ -154,6 +154,7 @@
     <ClCompile Include="src\output.cpp" />
     <ClCompile Include="src\random_mars.cpp" />
     <ClCompile Include="src\random_park.cpp" />
+    <ClCompile Include="src\result.cpp" />
     <ClCompile Include="src\run.cpp" />
     <ClCompile Include="src\stats.cpp" />
     <ClCompile Include="src\STUBS\mpi.c" />
@@ -180,12 +181,14 @@
     <ClInclude Include="src\pointers.h" />
     <ClInclude Include="src\random_mars.h" />
     <ClInclude Include="src\random_park.h" />
+    <ClInclude Include="src\result.h" />
     <ClInclude Include="src\run.h" />
     <ClInclude Include="src\stats.h" />
     <ClInclude Include="src\STUBS\mpi.h" />
     <ClInclude Include="src\style_command.h" />
     <ClInclude Include="src\MUSEunistd.h" />
     <ClInclude Include="src\style_compute.h" />
+    <ClInclude Include="src\style_result.h" />
     <ClInclude Include="src\timer.h" />
     <ClInclude Include="src\variable.h" />
     <ClInclude Include="src\version.h" />

@@ -15,6 +15,7 @@
 #include "output.h"
 #include "input.h"
 #include "stats.h"
+#include "result.h"
 #include "variable.h"
 #include "memory.h"
 #include "error.h"
@@ -37,14 +38,14 @@ Output::Output(MUSE* muse) : Pointers(muse)
     stats_every = 0;
     var_stats = NULL;
 
-    //nresult = 0;
-    //max_result = 0;
-    //every_result = NULL;
-    //next_result = NULL;
-    //last_result = NULL;
-    //var_result = NULL;
-    //ivar_result = NULL;
-    //result = NULL;
+    nresult = 0;
+    max_result = 0;
+    every_result = NULL;
+    next_result = NULL;
+    last_result = NULL;
+    var_result = NULL;
+    ivar_result = NULL;
+    result = NULL;
 
     //restart_flag = 0;
     //restart_every = 0;
@@ -203,6 +204,50 @@ void Output::reset_timestep(int ntimestep)
 
     //FIXME:这里缺少输出与续算
     next = next_stats;
+}
+
+void MUSE_NS::Output::add_result(int narg, char** arg)
+{
+    if (narg < 4) error->all(FLERR, "Illegal result command");
+
+    // error checks
+    if (atoi(arg[1]) <= 0) error->all(FLERR, "Invalid result frequency");
+
+    for (int iresult = 0; iresult < nresult; iresult++)
+        if (strcmp(arg[2], result[iresult]->filename) == 0) {
+            char str[128];
+            sprintf(str, "Reuse of result file: %s", arg[2]);
+            error->all(FLERR, str);
+        }
+    // extend Result list if necessary
+    if (nresult == max_result) {
+        max_result += DELTA;
+        result = (Result**)
+            memory->srealloc(result, max_result * sizeof(Result*), "output:result");
+        memory->grow(every_result, max_result, "output:every_result");
+        memory->grow(next_result, max_result, "output:next_result");
+        memory->grow(last_result, max_result, "output:last_result");
+        var_result = (char**)
+            memory->srealloc(var_result, max_result * sizeof(char*), "output:var_result");
+        memory->grow(ivar_result, max_result, "output:ivar_result");
+    }
+
+    // create the Result
+
+    if (0) return;         // dummy line to enable else-if macro expansion
+
+#define RESULT_CLASS
+#define ResultStyle(key,Class) \
+  else if (strcmp(arg[0],#key) == 0) result[nresult] = new Class(muse,narg,arg);
+#include "style_result.h"
+#undef RESULT_CLASS
+
+    else error->all(FLERR, "Unrecognized result style");
+
+    every_result[nresult] = atoi(arg[1]);
+    last_result[nresult] = -1;
+    var_result[nresult] = NULL;
+    nresult++;
 }
 
 /* ----------------------------------------------------------------------

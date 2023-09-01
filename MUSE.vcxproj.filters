@@ -96,6 +96,9 @@
     <ClCompile Include="src\stats.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\result.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\STUBS\mpi.h">
@@ -180,6 +183,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\stats.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\result.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\style_result.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
