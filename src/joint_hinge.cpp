@@ -43,7 +43,7 @@ void Joint::constrainteq_hinge()
 	scrsom2 = crsom2 * crsom2;
 
 	Tdqd1_I = body[0]->DCM * body[0]->Td * body[0]->quatd;
-	Tdqd1_I = body[1]->DCM * body[1]->Td * body[1]->quatd;
+	Tdqd2_I = body[1]->DCM * body[1]->Td * body[1]->quatd;
 
 	b_part11 = -scrsom1 * ap11 + crsap11 * Tdqd1_I;
 	b_part12 = -scrsom1 * ap12 + crsap12 * Tdqd1_I;
