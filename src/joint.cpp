@@ -87,6 +87,14 @@ void Joint::set_type(int newtype)
 		A2.resize(6, 7);
 		b.resize(6);
 		break;
+	case SLIDE:
+		type = newtype;
+		consptr = &Joint::constrainteq_slide;
+		A1.resize(6, 7);
+		A2.resize(6, 7);
+		b.resize(6);
+		break;
+
 	default:
 		error->all(FLERR, "Undefined joint type!");
 		break;

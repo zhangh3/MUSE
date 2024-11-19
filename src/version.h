@@ -9,4 +9,4 @@
    Copyright (c) 2023 Zhang He. All rights reserved.
 ------------------------------------------------------------------------- */
 
-#define MUSE_VERSION "28 Mar 2023"
+#define MUSE_VERSION "20 Nov 2024"

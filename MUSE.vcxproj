@@ -145,6 +145,7 @@
     <ClCompile Include="src\joint_fix.cpp" />
     <ClCompile Include="src\joint_ground.cpp" />
     <ClCompile Include="src\joint_hinge.cpp" />
+    <ClCompile Include="src\joint_slide.cpp" />
     <ClCompile Include="src\joint_sphere.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\memory.cpp" />

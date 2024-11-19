@@ -45,6 +45,7 @@ public:
 	void constrainteq_ground();
 	void constrainteq_fix();
 	void constrainteq_hinge();
+	void constrainteq_slide();
 	
 	typedef void (Joint::* FnPtr)();
 	FnPtr consptr;
