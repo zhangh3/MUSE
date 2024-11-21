@@ -41,7 +41,7 @@ MUSE 包含以下文件与文件夹:
 
 ## MUSE 编译方式
 ### WINDOWS   
-* 使用Visual Studio打开MUSE.sln，执行编译   
+* 使用Visual Studio打开*MUSE.sln*，执行编译   
 * 使用Cygwin64：
 ```
 cd src
@@ -66,7 +66,7 @@ make mpi
 * 运行MUSE.exe，在cmd窗口中输入脚本指令运行
    
 ### 修改main函数运行   
-* 替换src/文件夹中main.cpp，编译后运行
+* 替换src/文件夹中*main.cpp*，编译后运行
 
 ---
 ## 使用方法
@@ -81,7 +81,7 @@ make mpi
 
 质心坐标，质心速度是在系统惯性系下的坐标，角速度是在刚体随体坐标系下的坐标。
 
-MUSE中刚体类在nody.h中定义，类的名称为Body，Body类中最重要的几个为
+MUSE中刚体类在nody.h中定义，类的名称为Body，Body类中主要属性变量为
 ```C++
 char *name;                        //刚体名
 Eigen::Vector3d pos;               //惯性系下质心位置，默认值为0，0，0
@@ -92,25 +92,8 @@ double mass;                       //刚体质量，默认值为1。
 Eigen::Matrix3d inertia;           //刚体转动惯量，默认值为单位矩阵。
 ```
 
-* 通过直接修改main.cpp运行
-```C++
-//下面代码为创建一个刚体，命名为"body1"
+* 通过脚本命令创建刚体
 
-//定义字刚体名符串
-char name[] = "body1";
-//创建名为"body1"的刚体对象
-muse->add_Body(name1);
-//创建名为"body1"的刚体对象，刚体新创建的刚体会储存在muse->body数组中，按创建顺序排列。
-muse->add_Body(name1);
-muse->body[0]->mass = 1;               //设置刚体质量
-muse->body[0]->pos   << 0,0,0;         //设置刚体质心坐标（惯性系）
-muse->body[0]->vel   << 0,0,0;         //设置刚体速度（惯性系）
-muse->body[0]->quat  << 0, 0, 0, 1;     //设置刚体姿态   
-muse->body[0]->set_Omega(0,0,1)         //设置刚体角速度（体坐标系）
-muse->body[0]->set_Inertia(1,2,3,0,0,0) //设置刚体转动惯量Ixx，Iyy，Izz，Ixy，Ixz，Iyz（体坐标系）
-```
-
-* 通过脚本运行
 创建刚体脚本命令主要形式为
 
 <small>*create body 刚体名  属性1  属性值1  属性2  属性值2*</small>
@@ -131,6 +114,24 @@ create body b1  pos 0 0 0 quat 0 0 0 1 #创建一个刚体，命名b1, 质心位
 | inertia     | 1 1 1 0 0 0   |分别为Ixx，Iyy，Izz，Ixy，Ixz，Iyz|
 
 命令中不需要指定所有属性的值，未指定的属性将取默认值。
+
+* 程序文件中创建刚体
+```C++
+//下面代码为创建一个刚体，命名为"body1"
+
+//定义字刚体名符串
+char name[] = "body1";
+//创建名为"body1"的刚体对象
+muse->add_Body(name1);
+//创建名为"body1"的刚体对象，刚体新创建的刚体会储存在muse->body数组中，按创建顺序排列。
+muse->add_Body(name1);
+muse->body[0]->mass = 1;               //设置刚体质量
+muse->body[0]->pos   << 0,0,0;         //设置刚体质心坐标（惯性系）
+muse->body[0]->vel   << 0,0,0;         //设置刚体速度（惯性系）
+muse->body[0]->quat  << 0, 0, 0, 1;     //设置刚体姿态   
+muse->body[0]->set_Omega(0,0,1)         //设置刚体角速度（体坐标系）
+muse->body[0]->set_Inertia(1,2,3,0,0,0) //设置刚体转动惯量Ixx，Iyy，Izz，Ixy，Ixz，Iyz（体坐标系）
+```
 
 ### 创建约束
 文档待完善
