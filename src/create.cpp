@@ -136,6 +136,8 @@ void Create::create_joint(int narg, char** arg)
 
     if (strcmp(arg[1], "sphere") == 0) muse->joint[id]->set_type(SPHERE);
     else if (strcmp(arg[1], "ground") == 0)  muse->joint[id]->set_type(GROUND);
+    else if (strcmp(arg[1], "hinge") == 0)  muse->joint[id]->set_type(HINGE);
+    else if (strcmp(arg[1], "slide") == 0)  muse->joint[id]->set_type(SLIDE);
     else {
         char str[128];
         sprintf(str, "Illegal joint type: %s", arg[1]);

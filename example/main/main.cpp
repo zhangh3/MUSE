@@ -72,6 +72,12 @@ int main(int argc, char **argv){
 	muse->joint[1]->point1 << 0.5, 0, 0;
 	muse->joint[1]->point2 << -0.5, 0, 0;
 
+	//muse->joint[1]->set_type(HINGE);  //铰链示例
+	//muse->joint[1]->point1 << 0.5, 0, 0;
+	//muse->joint[1]->point2 << -0.5, 0, 0;
+	//muse->joint[1]->set_axis(0, 0, 1, 1);
+
+
 
 	muse->joint[2]->body[0] = muse->body[0];
 	muse->joint[2]->set_type(GROUND);

@@ -6,7 +6,8 @@ create body b3  pos 2 0 0 quat 0 0 0 1
 
 #创建一个约束,命名j1，约束类型球铰（sphere），球铰连接b1,b2，球铰在b1质心系位置为0.5 0 0，在b1质心系位置为-0.5 0 0
 create joint j1  sphere body1 b1 body2 b2 point1 0.5 0 0 point2 -0.5 0 0 
-create joint j2  sphere body1 b2 body2 b3 point1 0.5 0 0 point2 -0.5 0 0 
+create joint j2  sphere body1 b2 body2 b3 point1 0.5 0 0 point2 -0.5 0 0
+#create joint j2  sphere body1 b2 body2 b3 point1 0.5 0 0 point2 -0.5 0 0 axis1 0 0 1 #铰链示例
 #创建一个约束,命名grd，约束类型大地固连（ground），将b1固连大地
 create joint grd ground body1 b1 
 
