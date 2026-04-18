@@ -39,6 +39,7 @@ void Joint::set_Name(char* newname)
 {
 	int n = strlen(newname) + 1;
 	if (n < 2) error->one(FLERR, "Joint name is empty!");
+	delete [] name;
 	name = new char[n];
 	strcpy(name, newname);
 }
@@ -48,6 +49,8 @@ void Joint::set_type_by_name(char* type_name)
 	if (strcmp(type_name, "sphere") == 0) this->set_type(SPHERE);
 	else if (strcmp(type_name, "ground") == 0)  this->set_type(GROUND);
 	else if (strcmp(type_name, "fix") == 0)  this->set_type(FIX);
+	else if (strcmp(type_name, "hinge") == 0)  this->set_type(HINGE);
+	else if (strcmp(type_name, "slide") == 0)  this->set_type(SLIDE);
 	else {
 		char str[128];
 		sprintf(str, "Illegal joint type: %s", type_name);

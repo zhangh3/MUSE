@@ -42,7 +42,7 @@ ComputeBody::ComputeBody(MUSE *muse, int narg, char **arg) :
       }
   if (bodyid == muse->system->nBodies) {
       char str[128];
-      sprintf(str, "Cannot find body %s in system", arg[4]);
+      sprintf(str, "Cannot find body %s in system", arg[2]);
       error->all(FLERR, str);
   }
   else

@@ -235,7 +235,7 @@ void Variable::set(int narg, char **arg)
     }
     if (nvar == maxvar) grow();
     style[nvar] = GETENV;
-    num[nvar] = 1;
+    num[nvar] = 2;
     which[nvar] = 0;
     pad[nvar] = 0;
     data[nvar] = new char*[num[nvar]];
@@ -673,7 +673,7 @@ double Variable::evaluate(char *str, Tree **tree)
     onechar = str[i];
 
     // whitespace: just skip
-    std::locale::global(std::locale(""));//ÐÞ¸´isspace²»¶ÁÖÐÎÄ
+    std::locale::global(std::locale(""));//ï¿½Þ¸ï¿½isspaceï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     if (isspace(onechar)) i++;
 
     // ----------------
@@ -1963,7 +1963,7 @@ int Variable::special_function(char *word, char *contents, Tree **tree,
     Compute* compute = NULL;
     int index,nvec,nstride;
 
-    //FIXME::nvecÓëcomputÓÐ¹Ø£¡£¡£¡
+    //FIXME::nvecï¿½ï¿½computï¿½Ð¹Ø£ï¿½ï¿½ï¿½ï¿½ï¿½
 
 
 
@@ -1981,7 +1981,7 @@ int Variable::special_function(char *word, char *contents, Tree **tree,
             error->all(FLERR, "Invalid compute ID in variable formula");
         compute = modify->compute[icompute];
         if (index == 0 && compute->vector_flag) {
-            //FIXME:ÕâÀïÉ¾³ýÁËrunflag
+            //FIXME:ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½runflag
             if (!(compute->invoked_flag & INVOKED_VECTOR)) {
                 compute->compute_vector();
                 compute->invoked_flag |= INVOKED_VECTOR;
@@ -1993,7 +1993,7 @@ int Variable::special_function(char *word, char *contents, Tree **tree,
             if (index > compute->size_array_cols)
                 error->all(FLERR, "Variable formula compute array "
                     "is accessed out-of-range");
-            //FIXME:ÕâÀïÉ¾³ýÁËrunflag
+            //FIXME:ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½runflag
             if (!(compute->invoked_flag & INVOKED_ARRAY)) {
                 compute->compute_array();
                 compute->invoked_flag |= INVOKED_ARRAY;
@@ -2208,7 +2208,7 @@ double Variable::evaluate_boolean(char *str)
     onechar = str[i];
 
     // whitespace: just skip
-    std::locale::global(std::locale(""));//ÐÞ¸´isspace²»¶ÁÖÐÎÄ
+    std::locale::global(std::locale(""));//ï¿½Þ¸ï¿½isspaceï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     if (isspace(onechar)) i++;
 
     // ----------------

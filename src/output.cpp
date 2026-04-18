@@ -62,18 +62,14 @@ Output::~Output()
     if (stats) delete stats;
     delete[] var_stats;
 
-    //memory->destroy(every_result);
-    //memory->destroy(next_result);
-    //memory->destroy(last_result);
-    //for (int i = 0; i < nresult; i++) delete[] var_result[i];
-    //memory->sfree(var_result);
-    //memory->destroy(ivar_result);
-    //for (int i = 0; i < nresult; i++) delete result[i];
-    //memory->sfree(result);
-
-    //delete[] restartf;
-    //delete[] var_restart;
-    //delete restart;
+    memory->destroy(every_result);
+    memory->destroy(next_result);
+    memory->destroy(last_result);
+    for (int i = 0; i < nresult; i++) delete[] var_result[i];
+    memory->sfree(var_result);
+    memory->destroy(ivar_result);
+    for (int i = 0; i < nresult; i++) delete result[i];
+    memory->sfree(result);
 }
 void Output::init()
 {
@@ -85,7 +81,7 @@ void Output::init()
         if (!input->variable->equal_style(ivar_stats))
             error->all(FLERR, "Variable for stats every is invalid style");
     }
-    //FIXME:ÕâÀïÈ±ÉÙÊä³öÓëĞøËãµÄ³õÊ¼»¯
+    //FIXME:ï¿½ï¿½ï¿½ï¿½È±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½Ê¼ï¿½ï¿½
     
 }
 
@@ -100,7 +96,7 @@ void Output::setup(int memflag)
 {
     int ntimestep = muse->system->ntimestep;
 
-    //FIXME:ÕâÀïÈ±ÉÙÊä³öÓëĞøËãµÄsetup
+    //FIXME:ï¿½ï¿½ï¿½ï¿½È±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½setup
     int writeflag;
 
    
@@ -145,7 +141,7 @@ void Output::setup(int memflag)
 
 void Output::write(int ntimestep)
 {
-    //FIXME:ÕâÀïÈ±ÉÙÊä³öÓëĞøËã
+    //FIXME:ï¿½ï¿½ï¿½ï¿½È±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     // insure next_thermo forces output on last step of run
     // thermo may invoke computes so wrap with clear/add
 
@@ -166,7 +162,7 @@ void Output::write(int ntimestep)
     }
 
     // next = next timestep any output will be done
-    //FIXME:ÕâÀïÈ±ÉÙÊä³öÓëĞøËã
+    //FIXME:ï¿½ï¿½ï¿½ï¿½È±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     next = next_stats;
 }
 
@@ -182,7 +178,7 @@ void Output::write(int ntimestep)
 
 void Output::reset_timestep(int ntimestep)
 {
-    //FIXME:ÕâÀïÈ±ÉÙÊä³öÓëĞøËã
+    //FIXME:ï¿½ï¿½ï¿½ï¿½È±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     if (var_stats) {
         modify->clearstep_compute();
@@ -202,7 +198,7 @@ void Output::reset_timestep(int ntimestep)
     }
     else next_stats = muse->system->laststep;
 
-    //FIXME:ÕâÀïÈ±ÉÙÊä³öÓëĞøËã
+    //FIXME:ï¿½ï¿½ï¿½ï¿½È±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     next = next_stats;
 }
 

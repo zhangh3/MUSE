@@ -51,7 +51,7 @@ void Error::one(const char *file, int line, const char *str)
 void Error::warning(const char *file, int line, const char *str, int logflag)
 {
 	if (screen) fprintf(screen,"WARNING: %s (%s:%d)\n",str,file,line);
-	if (logfile) fprintf(screen,"WARNING: %s (%s:%d)\n",str,file,line);
+	if (logfile) fprintf(logfile,"WARNING: %s (%s:%d)\n",str,file,line);
 
 }
 
@@ -59,7 +59,7 @@ void Error::warning(const char *file, int line, const char *str, int logflag)
 void Error::message(const char *file, int line, const char *str, int logflag)
 {
   if (screen) fprintf(screen,"%s (%s:%d)\n",str,file,line);
-  if (logfile) fprintf(screen,"%s (%s:%d)\n",str,file,line);
+  if (logfile) fprintf(logfile,"%s (%s:%d)\n",str,file,line);
 }
 
 void Error::done()

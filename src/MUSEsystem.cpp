@@ -181,7 +181,7 @@ void System::command(int narg, char** arg)
 			while (true)
 			{
 				if (narg <= iarg + count) error->all(FLERR, "Illegal change system command");
-				if (strcmp(arg[iarg + count], "/addbodys") == 0) break;
+				if (strcmp(arg[iarg + count], "/removebodys") == 0) break;
 
 				int ibody;
 
@@ -221,7 +221,7 @@ void System::command(int narg, char** arg)
 			while (true)
 			{
 				if (narg <= iarg + count) error->all(FLERR, "Illegal change system command");
-				if (strcmp(arg[iarg + count], "/addjoints") == 0) break;
+				if (strcmp(arg[iarg + count], "/removejoints") == 0) break;
 
 				int ijoint;
 
@@ -256,8 +256,8 @@ void System::solve(int nsteps)
 	first_run = 1; 
 	int ibody, ijoint;
 
-	for (ibody = 0; ibody < nBodies; ibody++) muse->body[ibody]->refresh();
-	for (ijoint = 0; ijoint < nJoints; ijoint++) muse->joint[ijoint]->getconstrainteq();
+	for (ibody = 0; ibody < nBodies; ibody++) body[ibody]->refresh();
+	for (ijoint = 0; ijoint < nJoints; ijoint++) joint[ijoint]->getconstrainteq();
 
 	
 	
@@ -324,7 +324,7 @@ void System::calxdd()
 #else
 	JacobiSVD<MatrixXd> svdA(A, ComputeThinU | ComputeThinV);
 #endif //SPARSE
-	MatrixXd singularValues_inv = svdA.singularValues();//ÆæÒìÖµ
+	MatrixXd singularValues_inv = svdA.singularValues();//ï¿½ï¿½ï¿½ï¿½Öµ
 	double pinvtoler = singularValues_inv(0) * EPS;
 	for (int i = 0; i < singularValues_inv.rows(); ++i) {
 		if (singularValues_inv(i) > pinvtoler)
@@ -409,13 +409,13 @@ void System::x2body()
 		body[ibody]->vel = xd.segment(ibegin, 3);
 		ibegin += 3;
 		body[ibody]->quat  =  x.segment(ibegin, 4);
-	//	body[ibody]->quat.normalize(); //×¢Òâ½«Æä±ä³ÉÐÞÕýxµÈ
+	//	body[ibody]->quat.normalize(); //×¢ï¿½â½«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½
 
 		body[ibody]->quatd = xd.segment(ibegin, 4);
 		ibegin += 4;
 	}
-	for (ibody = 0; ibody < nBodies; ibody++) muse->body[ibody]->refresh();
-	for (ijoint = 0; ijoint < nJoints; ijoint++) muse->joint[ijoint]->getconstrainteq();
+	for (ibody = 0; ibody < nBodies; ibody++) body[ibody]->refresh();
+	for (ijoint = 0; ijoint < nJoints; ijoint++) joint[ijoint]->getconstrainteq();
 }
 
 int System::add_Body(Body *bodynow)
@@ -449,7 +449,7 @@ int MUSE_NS::System::remove_Body(Body *bodynow)
 
 	if (ibody == nBodies) {
 		char str[128];
-		sprintf(str, "Cannot find body %s in system", body[ibody]->name);
+		sprintf(str, "Cannot find body %s in system", bodynow->name);
 		error->all(FLERR, str);
 	}
 
@@ -499,7 +499,7 @@ int MUSE_NS::System::remove_Joint(Joint *jointnow)
 
 	if (ijoint == nJoints) {
 		char str[128];
-		sprintf(str, "Cannot find joint %s ", joint[ijoint]->name);
+		sprintf(str, "Cannot find joint %s ", jointnow->name);
 		error->all(FLERR, str);
 	}
 
@@ -539,8 +539,14 @@ void System::makeBigF()
 {
 	int ibody;
 	F.setZero();
-	for (ibody = 0; ibody < nBodies; ibody++) 
+	for (ibody = 0; ibody < nBodies; ibody++) {
+		// Translational force: gravity
 		F.segment(ibody * 7, 3) << body[ibody]->mass * ga;
+		// Rotational generalized force in quaternion form:
+		// Must include gyroscopic torque: -T^T * (omega x (I * omega))
+		Eigen::Vector3d gyro = body[ibody]->omega.cross(body[ibody]->inertia * body[ibody]->omega);
+		F.segment(ibody * 7 + 3, 4) = -body[ibody]->T.transpose() * gyro;
+	}
 }
 
 void System::makeBigM()

@@ -44,7 +44,7 @@ void Joint::constrainteq_fix()
 	b_part1 = -crsom1 * crsom1 * point1_I + crsp1_I * brot1;
 	b_part2 = -crsom2 * crsom2 * point2_I + crsp2_I * brot2;
 
-	A1 << Matrix3d::Identity(), crsp1_I* T1_I,
+	A1 << Matrix3d::Identity(), -crsp1_I* T1_I,
 		Matrix3d::Zero(), T1_I;
 	A2 << -Matrix3d::Identity(), crsp2_I* T2_I,
 		Matrix3d::Zero(), -T2_I;

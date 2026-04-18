@@ -31,6 +31,7 @@
 using namespace MUSE_NS;
 MUSE::MUSE(int narg, char **arg, MPI_Comm communicator)
 {
+	world = communicator;
 	MPI_Comm_rank(world, &me);
 
 	screen = stdout;
@@ -124,7 +125,7 @@ MUSE::~MUSE()
 
 	if (me == 0) {
 		if (screen && screen != stdout) fclose(screen);
-		//infile ÒÑÔÚfile()ÄÚ¹Ø±Õµ«ÊÇÎªÁË±ÜÃâ×Ô¶¨Òåmain£¨£©ÖÐ²»µ÷ÓÃfile£¨£©£¬Ôö¼Ó´ËÐÐÅÐ¶Ï
+		//infile ï¿½ï¿½ï¿½ï¿½file()ï¿½Ú¹Ø±Õµï¿½ï¿½ï¿½Îªï¿½Ë±ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½mainï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½fileï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó´ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
 		if (infile && infile != stdin) fclose(infile); 
 		if (logfile) fclose(logfile);
 	}

@@ -40,6 +40,7 @@ void Body::set_Name(char *newname)
 {
   int n = strlen(newname) + 1;
   if(n<2) error->one(FLERR,"Body name is empty!");
+  delete [] name;
   name = new char[n];
   strcpy(name,newname);
 }
@@ -73,7 +74,7 @@ void Body::set_Quaternion(double *newquat)
 	}
 	quat.normalize();
 	T << 2 * (quat(3) * Eigen::Matrix3d::Identity() - MathExtra::crs(quat.head(3))), -2 * quat.head(3);
-	quatd = 0.25 * T.transpose() * omega; // ÐÞ¸Äquatd
+	quatd = 0.25 * T.transpose() * omega; // ï¿½Þ¸ï¿½quatd
 }
 
 void MUSE_NS::Body::set_Omega(double wx, double wy, double wz)
@@ -98,12 +99,12 @@ void Body::set_Inertia(double Ixx,double Iyy,double Izz,double Ixy,double Ixz,do
 
 void Body::refresh()
 {
-	quat.normalize();// FIXME:¹éÒ»»¯quat£¬Ó¦¸Ã·µ»Øx
+	quat.normalize();// FIXME:ï¿½ï¿½Ò»ï¿½ï¿½quatï¿½ï¿½Ó¦ï¿½Ã·ï¿½ï¿½ï¿½x
 	T  << 2 * ( quat(3) * Eigen::Matrix3d::Identity() - MathExtra::crs( quat.head(3))), -2 *  quat.head(3);
 	DCM = (quat(3) * quat(3) - quat.head(3).transpose() * quat.head(3)) * Eigen::Matrix3d::Identity() 
 		 + 2 * quat.head(3) * quat.head(3).transpose() + 2 * quat(3) * MathExtra::crs(quat.head(3));
 	omega = T * quatd;
-	quatd = 0.25 * T.transpose() * omega; // FIXME:¹éÒ»»¯quatd£¬Ó¦¸Ã·µ»Øxd
+	quatd = 0.25 * T.transpose() * omega; // FIXME:ï¿½ï¿½Ò»ï¿½ï¿½quatdï¿½ï¿½Ó¦ï¿½Ã·ï¿½ï¿½ï¿½xd
 	Td << 2 * (quatd(3) * Eigen::Matrix3d::Identity() - MathExtra::crs(quatd.head(3))), -2 * quatd.head(3);
 	inertia4 = T.transpose() * inertia * T;
 }

@@ -23,15 +23,16 @@ void Joint::constrainteq_hinge()
 	Vector3d ap11, ap12, ap21, ap22, b_part11, b_part12, b_part21, b_part22, Tdqd1_I, Tdqd2_I;
 	Matrix3d crsap11, crsap12, crsap21, crsap22, crsom1, crsom2, scrsom1, scrsom2;
 
-	axis2 = body[1]->DCM.transpose() * body[0]->DCM * axis1;
+	// Compute axis2 in body2 frame from axis1 (local variable to avoid modifying member)
+	Vector3d axis2_local = body[1]->DCM.transpose() * body[0]->DCM * axis1;
 
 	T1_I = body[0]->DCM * body[0]->T;
 	T2_I = body[1]->DCM * body[1]->T;
 
 	ap11 = body[0]->DCM * (point1 + axis1);
 	ap12 = body[0]->DCM * (point1 - axis1);
-	ap21 = body[1]->DCM * (point2 + axis2);
-	ap22 = body[1]->DCM * (point2 - axis2);
+	ap21 = body[1]->DCM * (point2 + axis2_local);
+	ap22 = body[1]->DCM * (point2 - axis2_local);
 	crsap11 = MathExtra::crs(ap11);
 	crsap12 = MathExtra::crs(ap12);
 	crsap21 = MathExtra::crs(ap21);

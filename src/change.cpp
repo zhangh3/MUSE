@@ -108,7 +108,7 @@ void Change::change_body(int narg, char** arg)
             double vx = input->numeric(FLERR, arg[iarg + 1]);
             double vy = input->numeric(FLERR, arg[iarg + 2]);
             double vz = input->numeric(FLERR, arg[iarg + 3]);
-            muse->body[id]->pos << vx, vy, vz;
+            muse->body[id]->vel << vx, vy, vz;
             iarg = iarg + 4;
         }
         else if (strcmp(arg[iarg], "omega") == 0) {

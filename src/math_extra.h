@@ -176,7 +176,7 @@ void MathExtra::scale4(double s, double *v)
   v[0] *= s;
   v[1] *= s;
   v[2] *= s;
-  v[4] *= s;
+  v[3] *= s;
 }
 
 /* ----------------------------------------------------------------------
@@ -538,15 +538,15 @@ void MathExtra::scalar_times3(const double f, double m[3][3])
 
 void MathExtra::copy_mat3(const double mat1[3][3], double mat2[3][3])
 {
-  mat2[0][0] = mat2[0][0];
-  mat2[0][1] = mat2[1][0];
-  mat2[0][2] = mat2[2][0];
-  mat2[1][0] = mat2[0][1];
-  mat2[1][1] = mat2[1][1];
-  mat2[1][2] = mat2[2][1];
-  mat2[2][0] = mat2[0][2];
-  mat2[2][1] = mat2[1][2];
-  mat2[2][2] = mat2[2][2];
+  mat2[0][0] = mat1[0][0];
+  mat2[0][1] = mat1[0][1];
+  mat2[0][2] = mat1[0][2];
+  mat2[1][0] = mat1[1][0];
+  mat2[1][1] = mat1[1][1];
+  mat2[1][2] = mat1[1][2];
+  mat2[2][0] = mat1[2][0];
+  mat2[2][1] = mat1[2][1];
+  mat2[2][2] = mat1[2][2];
 }
 
 
