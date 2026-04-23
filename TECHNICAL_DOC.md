@@ -11,7 +11,6 @@
 7. [计算与输出系统](#7-计算与输出系统)
 8. [内存管理](#8-内存管理)
 9. [已知限制与注意事项](#9-已知限制与注意事项)
-10. [Bug修复记录](#10-bug修复记录)
 
 ---
 
@@ -591,47 +590,6 @@ $$A\ddot{\mathbf{x}} = \mathbf{b} - 2\alpha\dot{\Phi} - \beta^2\Phi$$
 
 并行版尚不完善，建议使用串行版编译运行。
 
----
-
-## 10. Bug修复记录
-
-以下为代码审查中发现并修复的bug列表：
-
-### 10.1 严重Bug（影响计算正确性）
-
-| # | 文件 | 描述 | 修复方式 |
-|---|------|------|---------|
-| 1 | `create.cpp` | `create body`命令设置速度时写入了`pos`而非`vel` | `muse->body[id]->pos << vx,vy,vz` → `muse->body[id]->vel << vx,vy,vz` |
-| 2 | `change.cpp` | `change body`命令设置速度时同样写入了`pos` | 同上 |
-| 3 | `muse.cpp` | MPI通信器`world`在使用前未初始化 | 在`MPI_Comm_rank`调用前添加`world = communicator` |
-| 4 | `MUSEsystem.cpp` | `makeBigF()`遗漏了陀螺力矩项$\omega\times(J\omega)$，导致旋转体动力学完全错误 | 添加陀螺力矩计算 |
-| 5 | `joint_fix.cpp` | A1矩阵位置-旋转耦合项符号错误：应为$-[\mathbf{p}]_\times T_I$但写成了$+[\mathbf{p}]_\times T_I$ | `crsp1_I * T1_I` → `-crsp1_I * T1_I` |
-| 6 | `MUSEsystem.cpp` | `solve()`和`x2body()`中使用`muse->body[ibody]`而非系统内部的`body[ibody]`，导致系统刚体与全局刚体不一致时出错 | 改为使用`body[ibody]` |
-
-### 10.2 中等Bug（可能导致崩溃或数据错误）
-
-| # | 文件 | 描述 | 修复方式 |
-|---|------|------|---------|
-| 7 | `math_extra.h` | `scale4()`函数访问`v[4]`（数组越界，应为`v[3]`） | `v[4]` → `v[3]` |
-| 8 | `math_extra.h` | `copy_mat3()`自赋值：`mat2 = mat2`应为`mat2 = mat1` | `mat2 = mat2` → `mat2 = mat1` |
-| 9 | `MUSEsystem.cpp` | `removebodys`命令终止符错误地设为`"/addbodys"` | → `"/removebodys"` |
-| 10 | `MUSEsystem.cpp` | `removejoints`命令终止符错误地设为`"/addjoints"` | → `"/removejoints"` |
-| 11 | `MUSEsystem.cpp` | `remove_Body()`在移除后访问已越界的索引 | 移除前保存指针 |
-| 12 | `MUSEsystem.cpp` | `remove_Joint()`同样的越界问题 | 同上 |
-| 13 | `variable.cpp` | `GETENV`类型变量分配`num[nvar]=1`但写入`data[nvar][1]`（越界） | `num[nvar]` 改为 2 |
-| 14 | `error.cpp` | `warning()`和`message()`应写入`logfile`但实际写入了`screen` | `fprintf(screen,...)` → `fprintf(logfile,...)` |
-
-### 10.3 低等Bug（内存泄漏/功能缺失）
-
-| # | 文件 | 描述 | 修复方式 |
-|---|------|------|---------|
-| 15 | `body.cpp` | `set_Name()`未释放旧`name`内存（内存泄漏） | 添加`delete[] name` |
-| 16 | `joint.cpp` | `set_Name()`同样的内存泄漏 | 同上 |
-| 17 | `joint.cpp` | `set_type_by_name()`缺少"hinge"和"slide"类型 | 添加对应分支 |
-| 18 | `joint_hinge.cpp` | `axis2`成员变量每步被覆盖（应为局部变量） | 改用局部变量 |
-| 19 | `compute_body.cpp` | 错误消息引用`arg[4]`但应为`arg[2]` | 修正索引 |
-| 20 | `output.cpp` | 析构函数中结果清理代码被注释掉（内存泄漏） | 取消注释 |
-| 21 | `create.cpp` | `create_joint`中冗余的`set_type`调用 | 删除冗余调用 |
 
 ---
 
